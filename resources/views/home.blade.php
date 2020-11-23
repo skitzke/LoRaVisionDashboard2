@@ -4,50 +4,72 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="row">
                 <div class="card-header">
                     <h2>Stations</h2>
-                </div>
-                <div class="card-body" style="background: white">
-                    <div class="row-cols-2l">
-                        <div class="row">
-                            <div class="card-body bg-white align-content-center">
-                                I am a station
-                            </div>
-                            <div class="card-body bg-white align-content-center">
-                                I am station 2
+                    <div class="card-body" style="background: white">
+                        <div class="row-cols-2l">
+                            <div class="row">
+                                    <div class="card-body bg-white align-content-center">
+                                        I am station
+                                    </div>
+                                    <div class="card-body bg-white align-content-center">
+                                        I am station 2
+                                    </div>
+                                <div class="row">
+                                    <div class="card-body bg-white align-content-center">
+                                        I am station 3
+                                    </div>
+                                    <div class="card-body bg-white align-content-center">
+                                        I am station 4
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+{{--            <div id="buttonsContainer" class="dropShadow">--}}
+{{--                <div class="functionButtonsSmall rounding">--}}
+{{--                    <div class="icon"></div>--}}
+{{--                </div>--}}
 
-            <div class="col-sm">
-                <div class="container">
-                    <div class="btn-group-vertical">
+{{--                <div class="functionButtonsSmall rounding">--}}
 
-                        <div class="btn-group">
+{{--                </div>--}}
+
+{{--                <div class="functionButtons rounding">--}}
+{{--                    <div class="icon"></div>--}}
+{{--                </div>--}}
+
+{{--                <div class="functionButtons rounding">--}}
+{{--                    <div class="icon"></div>--}}
+{{--                </div>--}}
+
+{{--                <div id="profilePicBox" class="rounding">--}}
+
+{{--                </div>--}}
+{{--            </div>--}}
+                <div id="buttonsContainer" class="dropShadow">
+                        <div class="functionButtonsSmall rounding">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Incident Log</button>
                             <div class="dropdown-menu">
-                                <form>
-                                    <p>Name:</p>
-                                    <p>Email:</p>
-                                    <p>Password:    **********</p>
-                                </form>
+                                PUT INCIDENT LOG STRUCTURE IN HERE
                             </div>
                         </div>
-
-                        <div class="btn-group">
+                        <div class="btn-group functionButtonsSmall rounding">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Settings</button>
                             <div class="dropdown-menu">
                                 <form>
                                     <p>Name:</p>
                                     <p>Email:</p>
+                                    <a href="#">Forgot Email</a>
                                     <p>Password:    **********</p>
+                                    <a href="#">Forgot Password</a>
                                 </form>
                             </div>
                         </div>
-
+                    <div class="btn-group-vertical">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Alerts</button>
                             <div class="dropdown-menu">
@@ -57,7 +79,6 @@
                                 </form>
                             </div>
                         </div>
-
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Adding</button>
                             <div class="dropdown-menu">
@@ -69,7 +90,6 @@
                         </div>
                     </div>
                 </div>
-
         </div>
     </div>
 
