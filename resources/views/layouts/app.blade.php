@@ -62,7 +62,7 @@
                                         {{ __('Logout') }}
                                     </a>
                                     @if(Auth::user()->admin && Route::has('login'))
-                                    <a class="dropdown-item" href="{{ route('users.index')}}">
+                                    <a class="dropdown-item" href="{{ route('getUsers')}}">
                                        User Management
                                     </a>
                                     @endif
