@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @if(Auth::user()->admin && Route::has('login'))
+        <p>admin</p>
+    @else
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9">
@@ -32,4 +35,5 @@
             </div>
         </div>
     </div>
+@endif
 @endsection

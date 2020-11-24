@@ -61,10 +61,11 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                    @if(Auth::user()->admin && Route::has('login'))
                                     <a class="dropdown-item" href="{{ route('users.index')}}">
                                        User Management
                                     </a>
-
+                                    @endif
                                     <a class="dropdown-item">
                                         Settings
                                     </a>
