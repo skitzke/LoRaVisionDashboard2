@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -25,4 +25,12 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function stations()
+    {
+        $stations = Http::get('http://167.86.94.244:8090/stations')->json();
+        return view('home', ['stations' => $stations]);
+    }
+
+
 }
