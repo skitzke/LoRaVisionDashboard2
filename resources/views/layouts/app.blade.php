@@ -66,7 +66,7 @@
                                        User Management
                                     </a>
                                     @endif
-                                    <a class="dropdown-item">
+                                    <a class="dropdown-item" href="{{ route('settings')}}">
                                         Settings
                                     </a>
 

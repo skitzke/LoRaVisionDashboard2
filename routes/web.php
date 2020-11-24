@@ -25,3 +25,4 @@ Route::resource('/admin/users', 'App\Http\Controllers\Admin\UsersController');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'stations'])->name('home');
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
