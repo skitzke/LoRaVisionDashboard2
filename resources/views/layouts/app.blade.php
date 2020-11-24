@@ -18,18 +18,18 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/StyleSheet.css') }}" rel="stylesheet">
-
+    <link href="{{asset('css/StyleSheet.css')}}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <h3>Brandweer Drenthe</h3>
-                {{--<img src="{{URL::asset('images/Logo.png', 'Logo')}}" alt="Logo">
-                <a class="navbar-brand" href="{{ url('../../public/images/Logo.png') }}">
-              {{ config('app.name', 'Laravel') }}
-                      </a>--}}
+                {{-- <h3>Brandweer Drenthe</h3>
+                -<img src="{{URL::asset('images/Logo.png', 'Logo')}}" alt="Logo">
+                 <a class="navbar-brand" href="{{ url('../../public/images/Logo.png') }}">
+               {{ config('app.name', 'Laravel') }}
+                       </a>--}}
+                <img src="{{URL::to('/images/Logo.png')}}" class="rounded float-right" alt="Icon">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -65,6 +65,9 @@
                                        User Management
                                     </a>
 
+                                    <a class="dropdown-item">
+                                        Settings
+                                    </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
