@@ -30,11 +30,28 @@
                     }</script>
                     <div class="card-body">
 
-                        <button id="alert-log" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alert-log')">Alert log</button>
-                        <div>
-                            <form id="alert-log-form" class="form-group card-body pt-0 pb-0" method="post" hidden>
-                                Alert page will be displayed here
-                            </form>
+                        <button data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-action rounded-bottom">
+                            Alert log
+                        </button>
+                        <div class="modal fade" id="myModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Alert Log</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">Stations notifcation 1</li>
+                                            <li class="list-group-item">Stations notifcation 2</li>
+                                            <li class="list-group-item">Stations notifcation 3</li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">Alerts</button>
                         <div>
