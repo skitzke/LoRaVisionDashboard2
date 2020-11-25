@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Auth::user()->admin && Route::has('login'))
-        <p>admin</p>
-    @else
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9">
@@ -65,10 +63,13 @@
                                 </ul>
                             </form>
                         </div>
+                        @if(Auth::user()->admin && Route::has('login'))
+                            <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">Adding</button>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endif
+
 @endsection
