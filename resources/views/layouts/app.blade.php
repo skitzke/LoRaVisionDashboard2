@@ -29,7 +29,9 @@
                  <a class="navbar-brand" href="{{ url('../../public/images/Logo.png') }}">
                {{ config('app.name', 'Laravel') }}
                        </a>--}}
-                <img src="{{URL::to('/images/Logo.png')}}" class="rounded float-right" alt="Icon">
+                    <a href="{{ route('home') }}">
+                    <img src="{{URL::to('/images/Logo.png')}}" class="rounded float-right" alt="Icon">
+                    </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -86,7 +88,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 mainColour">
             @yield('content')
         </main>
     </div>
