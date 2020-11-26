@@ -5,18 +5,23 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9">
-                <div class="card">
+                <div class="card p-3">
                     <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body row row-cols-2 modal-dialog-scrollable">
-
-                        @foreach($stations as $station)
-                            <div class="col border nav-link p-5">
-                                {{ $station['name'] }}
-                            </div>
-                        @endforeach
-
-                    </div>
+                        <div class="card-body row row-cols-2 scrollbar scrollbar-primary">
+                            @foreach($stations as $station)
+                                <div class="col border nav-link p-5" data-toggle="collapse" data-target="#station{{ $station['id'] }}">
+                                            {{ $station['name'] }}
+                                    <div id="station{{ $station['id'] }}" class="collapse">
+                                        In here it will display the information of the stations when clicked on
+                                        In here it will display the information of the stations when clicked on
+                                        In here it will display the information of the stations when clicked on
+                                        In here it will display the information of the stations when clicked on
+                                        In here it will display the information of the stations when clicked on
+                                        In here it will display the information of the stations when clicked on
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -26,8 +31,7 @@
                     let form = document.getElementById(option_id + '-form');
                     form.hidden = form.hidden !== true;
                     }</script>
-                    <div class="card-body">
-
+                    <div class="card-body scrollbar scrollbar-primary">
                         <button data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-action rounded-bottom">
                             Alert log
                         </button>
@@ -40,7 +44,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="modal-body">
-                                            <ul class="scrollableForAlertLog-group">
+                                            <ul class="scrollbar scrollbar-primary">
                                                 <li class="list-group-item">Stations notifcation 1</li>
                                                 <li class="list-group-item">Stations notifcation 2</li>
                                                 <li class="list-group-item">Stations notifcation 3</li>
