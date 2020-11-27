@@ -67,11 +67,14 @@
 
                                     <a class="dropdown-item" href="{{ route('home') }}">Home</a>
 
-                                    @if(Auth::user()->admin && Route::has('login'))
-                                    <a class="dropdown-item" href="{{ route('getUsers')}}">
-                                       User Management
-                                    </a>
+                                    @if(Route::has('login'))
+                                        @can('adminRights')
+                                            <a class="dropdown-item" href="{{ route('users.index')}}">
+                                                User Management
+                                            </a>
+                                        @endcan
                                     @endif
+
                                     <a class="dropdown-item" href="{{ route('settings')}}">
                                         Settings
                                     </a>

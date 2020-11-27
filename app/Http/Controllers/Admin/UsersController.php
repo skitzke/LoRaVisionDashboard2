@@ -4,52 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function users()
+    public function index()
     {
-        $users = DB::select('select * from `users`');
-        return view('admin.users', ['users' => $users]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
+        if(Gate::allows('adminRights'))
+        {
+            $roles = Role::all();
+            $users = User::all();
+            //$users = DB::select('select * from `users`');
+            return view('admin.users', ['users' => $users, 'roles' => $roles]);
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -60,19 +42,23 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        if(Gate::allows('ownerRights'))
+        {
+            $roles = Role::all();
+            return view('admin.edit', ['user' => $user, 'roles' => $roles]);
+        } elseif (Gate::allows('adminRights'))
+        {
+            return redirect() -> route('users.index');
+        } else {
+            return redirect() -> route('home');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function update(Request $request, user $user)
     {
-        //
+        $user -> roles() -> sync($request->roles);
+
+        return redirect() -> route('users.index');
     }
 
     /**
@@ -83,6 +69,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user -> delete();
+        return redirect() -> route('users.index');
     }
 }

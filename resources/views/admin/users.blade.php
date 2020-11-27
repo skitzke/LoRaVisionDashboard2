@@ -4,27 +4,43 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">Users</div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Level</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <th scope="row">{{ $user -> id}}</th>
+                                        <td>{{ $user -> name}}</td>
+                                        <td>{{ $user -> email}}</td>
+                                        <td>{{ implode(', ', $user -> roles() -> get() -> pluck('name') -> toArray()) }}</td>
+                                        <td>
+                                            @can('ownerRights')
+                                            <a href="{{ route('users.edit', $user -> id) }}"><button type="submit" class="btn btn-primary float-left">Edit</button></a>
+                                            @endcan
+                                            <form action="{{ route('users.destroy', $user -> id) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-dark float-left">Delete</button>
+                                            </form>
 
-                    <div class="card-body row row-cols-5">
+                                        </td>
 
-                        <div class="border nav-link col"> id </div>
-                        <div class="border nav-link col"> name </div>
-                        <div class="border nav-link col"> email </div>
-                        <div class="border nav-link col"> level </div>
-                        <div class="border nav-link col"> edit </div>
-                        @foreach($users as $user)
-
-                            <div class="border nav-link col"> {{ $user -> id}} </div>
-                            <div class="border nav-link col"> {{ $user -> name}} </div>
-                            <div class="border nav-link col"> {{ $user -> email}} </div>
-                            <div class="border nav-link col"> {{$user -> admin}} </div>
-                            <div class="border nav-link col"> Delete </div>
-
-                        @endforeach
-
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

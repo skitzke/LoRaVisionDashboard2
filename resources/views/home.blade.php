@@ -67,8 +67,10 @@
                                 </ul>
                             </form>
                         </div>
-                        @if(Auth::user()->admin && Route::has('login'))
-                            <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">Adding</button>
+                        @if(Route::has('login'))
+                            @can('adminRights')
+                                <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">Adding</button>
+                            @endcan
                         @endif
                     </div>
                 </div>

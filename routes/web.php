@@ -21,7 +21,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'users'])->name('getUsers');
+/*Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'users'])->name('getUsers');*/
+Route::resource('/admin/users', 'App\Http\Controllers\Admin\UsersController', ['except' => ['create', 'store', 'show']]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'stations'])->name('home');
 
