@@ -36,4 +36,9 @@ class HomeController extends Controller
     {
         return view('settings');
     }
+
+    public function disabled()
+    {
+        return view('disabled');
+    }
 }
