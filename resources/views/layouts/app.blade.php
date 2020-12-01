@@ -75,7 +75,7 @@
                                         @endcan
                                     @endif
 
-                                    <a class="dropdown-item" href="{{ route('settings')}}">
+                                    <a class="dropdown-item" href="{{ route('settings_index')}}">
                                         Settings
                                     </a>
 

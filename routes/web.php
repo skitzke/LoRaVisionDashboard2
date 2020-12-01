@@ -26,6 +26,16 @@ Route::resource('/admin/users', 'App\Http\Controllers\Admin\UsersController', ['
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'stations'])->name('home');
 
-Route::get('/settings', [App\Http\Controllers\HomeController::class, 'settings'])->name('settings');
+Route::get('/settings', [App\Http\Controllers\General\SettingsController::class, 'index'])->name('settings_index');
 
 Route::get('/disabled', [App\Http\Controllers\HomeController::class, 'disabled'])->name('disabled');
+
+Route::post('/settings/update_name', [App\Http\Controllers\General\SettingsController::class, 'update_name'])->name('update_name');
+
+Route::post('/settings/update_email', [App\Http\Controllers\General\SettingsController::class, 'update_email'])->name('update_email');
+
+Route::post('/settings/update_password', [App\Http\Controllers\General\SettingsController::class, 'update_password'])->name('update_password');
+
+Route::delete('/settings/delete_account', [App\Http\Controllers\General\SettingsController::class, 'delete_account'])->name('delete_account');
+
+Route::post('/settings/update_avatar', [App\Http\Controllers\General\SettingsController::class, 'update_avatar'])->name('update_avatar');
