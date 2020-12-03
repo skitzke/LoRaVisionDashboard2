@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/customScripts.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -91,7 +92,7 @@
             </div>
         </nav>
 
-        <main class="py-4 mainColour">
+        <main class="py-4">
             @yield('content')
         </main>
     </div>

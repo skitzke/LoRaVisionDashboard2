@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9">
@@ -9,10 +8,12 @@
                     <div class="card-header">{{ __('Dashboard') }}</div>
                         <div class="card-body row row-cols-2 scrollbar scrollbar-primary">
 {{--                            This foreach checks if every station avaliable on the database is set to per cell so they are uniquely identifiable--}}
+                            @php($i = 0)
                             @foreach($stations as $station)
-                                <div class="col border nav-link p-5" data-toggle="collapse" data-target="#station{{ $station['id'] }}">
-                                            {{ $station['name'] }}
-                                    <div id="station{{ $station['id'] }}" class="collapse">
+                                @php(++$i)
+                                <div id="station{{ $i }}" class="col border nav-link p-5" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
+                                    {{ $station['name'] }}
+                                    <div id="divContents{{ $i }}" hidden>
                                         In here it will display the information of the stations when clicked on
                                         In here it will display the information of the stations when clicked on
                                         In here it will display the information of the stations when clicked on
@@ -28,14 +29,9 @@
             <div class="col-md-3">
                 <div class="card p-3">
                     <div class="card-header">{{ __('Dashboard') }}</div>
-{{--                    This script is to attach a hidden and unhidden option to the DIV that it's being assigned to--}}
-{{--                    Currently this script is only being used for Alerts.--}}
-                    <script>function show_form(option_id) {
-                    let form = document.getElementById(option_id + '-form');
-                    form.hidden = form.hidden !== true;
-                    }</script>
 {{--                    Alert Log--}}
                     <div class="card-body scrollbar scrollbar-primary">
+{{--                        THIS IS THE ALERT LOG BUTTON--}}
                         <button data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-action rounded-bottom">
                             Alert log
                         </button>
@@ -81,5 +77,4 @@
             </div>
         </div>
     </div>
-
 @endsection
