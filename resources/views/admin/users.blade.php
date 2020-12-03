@@ -49,8 +49,16 @@
                                                                 @foreach($roles as $role)
                                                                     <div class="form-check">
                                                                         @if($role -> name != 'owner')
-                                                                            <input type="radio" name="roles[]" value="{{ $role -> id }}">
-                                                                            <label>{{ $role -> name }}</label>
+                                                                            @if($user -> hasRole('User') && $role -> id == 1)
+                                                                                <input type="radio" name="roles[]" value="{{ $role -> id }}" checked>
+                                                                                <label>{{ $role -> name }}</label>
+                                                                            @elseif($user -> hasRole('Admin') && $role -> id == 2)
+                                                                                <input type="radio" name="roles[]" value="{{ $role -> id }}" checked>
+                                                                                <label>{{ $role -> name }}</label>
+                                                                            @else
+                                                                                <input type="radio" name="roles[]" value="{{ $role -> id }}">
+                                                                                <label>{{ $role -> name }}</label>
+                                                                            @endif
                                                                         @endif
                                                                     </div>
                                                                 @endforeach
