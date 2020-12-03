@@ -29,10 +29,10 @@ class HomeController extends Controller
 
     public function stations()
     {
-        $stations = Http::get('http://167.86.94.244:8090/stations')->json();
+        $stations = Http::withBasicAuth('Yy2zY8YRkXh5mjGF99WnZUtNX4NfQbwaFEzBAnYCgVVHFjN7u4vXBkzwU85HFK5P',
+            'qPXZxknxjyQBBEwr4tHEDVB49cpQQhpN2UEKme85TJET78tPJZbxxNmw42puwYCq')->get('http://167.86.94.244:8090/stations')->json();
         return view('home', ['stations' => $stations]);
     }
-
 
 
     public function disabled()

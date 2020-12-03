@@ -23,12 +23,12 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $logUser = auth() -> user();
         if(Gate::allows('adminRights'))
         {
             $roles = Role::all();
             $users = User::all();
-            //$users = DB::select('select * from `users`');
-            return view('admin.users', ['users' => $users, 'roles' => $roles]);
+            return view('admin.users', ['users' => $users, 'roles' => $roles, 'logUser' => $logUser]);
         } else {
             return redirect()->route('home');
         }
