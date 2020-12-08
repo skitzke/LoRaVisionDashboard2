@@ -8,6 +8,17 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    @if ($message = Session::get('global'))
+
+                        <div class="alert alert-success alert-block">
+
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+
+                            <strong>{{ $message }}</strong>
+
+                        </div>
+
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
