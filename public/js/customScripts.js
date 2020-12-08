@@ -11,41 +11,41 @@ function show_station_data(station_id)
     let current_div = document.getElementById('station' + station_id);
     let next_div = document.getElementById('station' + (station_id + 1));
     let previous_div = document.getElementById('station' + (station_id - 1));
-    let x = document.getElementById("divContents" + station_id);
+    let div_contents = document.getElementById("divContents" + station_id);
 
     //Here we're defining if it's EVEN or ODDS
     if (station_id % 2 === 1)
     {
         //This is when you're closing the ODD div
-        if (current_div.classList.contains('col-md-12'))
+        if (current_div.classList.contains('stationSize'))
         {
-            current_div.classList.remove('col-md-12');
+            current_div.classList.remove('stationSize');
             next_div.hidden = false;
-            x.hidden = true;
+            div_contents.classList.add('openCloseContents');
         }
         // This is when you're opening the ODD div
         else
         {
-            current_div.classList.add('col-md-12');
+            current_div.classList.add('stationSize');
             next_div.hidden = true;
-            x.hidden = false;
+            div_contents.classList.remove('openCloseContents');
         }
     }
     else
         {
             //This is when you're closing the EVEN div
-            if (current_div.classList.contains('col-md-12'))
+            if (current_div.classList.contains('stationSize'))
             {
-                current_div.classList.remove('col-md-12');
+                current_div.classList.remove('stationSize');
                 previous_div.hidden = false;
-                x.hidden = true;
+                div_contents.classList.add('openCloseContents');
             }
             //This is when you're opening the EVEN div
             else
             {
-                current_div.classList.add('col-md-12');
+                current_div.classList.add('stationSize');
                 previous_div.hidden = true;
-                x.hidden = false;
+                div_contents.classList.remove('openCloseContents');
             }
         }
 }

@@ -11,9 +11,9 @@
                             @php($i = 0)
                             @foreach($stations as $station)
                                 @php(++$i)
-                                <div id="station{{ $i }}" class="col border nav-link p-5" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
+                                <div id="station{{ $i }}" class="col border nav-link p-5 transition" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
                                     {{ $station['name'] }}
-                                    <div id="divContents{{ $i }}" hidden>
+                                    <div id="divContents{{ $i }}" class="openCloseContents">
                                         In here it will display the information of the stations when clicked on
                                         In here it will display the information of the stations when clicked on
                                         In here it will display the information of the stations when clicked on
