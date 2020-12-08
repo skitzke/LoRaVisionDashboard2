@@ -26,7 +26,7 @@ Route::resource('/admin/users', 'App\Http\Controllers\Admin\UsersController', ['
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'stations'])->name('home')->middleware('verified');
 
-Route::get('/settings', [App\Http\Controllers\General\SettingsController::class, 'index'])->name('settings_index');
+Route::get('/settings', [App\Http\Controllers\General\SettingsController::class, 'index'])->name('settings_index')->middleware('verified');;
 
 Route::get('/disabled', [App\Http\Controllers\HomeController::class, 'disabled'])->name('disabled');
 
