@@ -11,15 +11,39 @@
                             @php($i = 0)
                             @foreach($stations as $station)
                                 @php(++$i)
-                                <div id="station{{ $i }}" class="col border nav-link p-5 transition" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
-                                    {{ $station['name'] }}
+                                <div id="station{{ $i }}" class="col border nav-link p-5 transition">
+                                    <button type="button" class="btn w-100" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
+                                        {{ $station['name'] }}
+                                    </button>
+
                                     <div id="divContents{{ $i }}" class="openCloseContents">
-                                        In here it will display the information of the stations when clicked on
-                                        In here it will display the information of the stations when clicked on
-                                        In here it will display the information of the stations when clicked on
-                                        In here it will display the information of the stations when clicked on
-                                        In here it will display the information of the stations when clicked on
-                                        In here it will display the information of the stations when clicked on
+                                        {{ $station['city'] }}
+                                        {{ $station['address'] }}
+                                        {{ $station['zipCode']  }}
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Vehicle number</th>
+                                                    <th scope="col">Default voltage</th>
+                                                    <th scope="col">Interior temp.</th>
+                                                    <th scope="col">Battery temp.</th>
+                                                    <th scope="col">Reset communication</th>
+                                                    <th scope="col">Reset navigation</th>
+                                                    <th scope="col">Delete vehicle</th>
+                                                </tr>
+                                            </thead>
+                                        {{--<tbody>
+                                            @foreach($trucks as $truck)
+                                                <tr>
+                                                    <td>{{$truck['vehicleNumber']}}</td>
+                                                    <td>{{$truck['defaultBatteryVoltage']}}</td>
+                                                    <td>{{$truck['id']}}</td>
+                                                    <td>{{$truck['id']}}</td>
+                                                    <td>{{$truck['id']}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>--}}
+                                    </table>
                                     </div>
                                 </div>
                             @endforeach
@@ -57,7 +81,9 @@
                             </div>
                         </div>
 {{--                        THIS DEALS WITH THE ALERTS BUTTON--}}
-                        <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">Alerts</button>
+                        <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">
+                            Alerts
+                        </button>
                         <div>
                             <form id="alerts-form" class="form-group card-body pt-0 pb-0" method="post" hidden>
                                 <ul class="list-group">
@@ -69,7 +95,138 @@
                         </div>
                         @if(Route::has('login'))
                             @can('adminRights')
-                                <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">Adding</button>
+
+                                <button id="adding" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('adding')">
+                                    Adding
+                                </button>
+                                <div>
+                                    <div id="adding-form" class="form-group card-body p-0" hidden>
+                                        <ul class="list-group">
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                {{--                        THIS IS THE ADDING STATIONS BUTTON--}}
+                                                <button data-toggle="modal" data-target="#addingStation" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Add Stations
+                                                </button>
+                                            </li>
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                {{--                        THIS IS THE ADDING VEHICLES BUTTON--}}
+                                                <button data-toggle="modal" data-target="#addingVehicle" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Add Vehicles
+                                                </button>
+                                            </li>
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                {{--                        THIS IS THE ADDING SENSORS BUTTON--}}
+                                                <button data-toggle="modal" data-target="#addingSensor" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Add Sensors
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING STATIONS--}}
+                                <div class="modal fade" id="addingStation" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Add Stations</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+
+
+                                                <form action="{{route('addStation')}}" class="row g-3" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <div class="col-md-4">
+                                                        <label for="validationDefault01" class="form-label">First name</label>
+                                                        <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="validationDefault02" class="form-label">Last name</label>
+                                                        <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="validationDefaultUsername" class="form-label">Username</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                                                            <input type="text" class="form-control" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="validationDefault03" class="form-label">City</label>
+                                                        <input type="text" class="form-control" id="validationDefault03" required>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="validationDefault04" class="form-label">State</label>
+                                                        <select class="form-select" id="validationDefault04" required>
+                                                            <option selected disabled value="">Choose...</option>
+                                                            <option>...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="validationDefault05" class="form-label">Zip</label>
+                                                        <input type="text" class="form-control" id="validationDefault05" required>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                                                            <label class="form-check-label" for="invalidCheck2">
+                                                                Agree to terms and conditions
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <button class="btn btn-primary" type="submit">Submit form</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING TRUCKS VEHICLES--}}
+                                <div class="modal fade" id="addingVehicle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Add Vehicles</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul class="scrollbar scrollbar-primary">
+                                                    <li class="list-group-item">adding here</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING SENSORS--}}
+                                <div class="modal fade" id="addingSensor" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Add Sensors</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul class="scrollbar scrollbar-primary">
+                                                    <li class="list-group-item">adding here</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endcan
                         @endif
                     </div>

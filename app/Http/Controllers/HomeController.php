@@ -34,9 +34,23 @@ class HomeController extends Controller
         return view('home', ['stations' => $stations]);
     }
 
-
     public function disabled()
     {
         return view('disabled');
+    }
+
+    public function addStation(Request $request)
+    {
+        return redirect()->route('home');
+    }
+
+    public function addVehicle(Request $request)
+    {
+        return redirect()->route('home');
+    }
+
+    public function addSensor(Request $request)
+    {
+        return redirect()->route('home');
     }
 }

@@ -19,14 +19,14 @@ Route::get('/', function () {
 
 Auth::routes(['verify'=>true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); //->middleware('verified');
 
 /*Route::get('/admin/users', [App\Http\Controllers\Admin\UsersController::class, 'users'])->name('getUsers');*/
 Route::resource('/admin/users', 'App\Http\Controllers\Admin\UsersController', ['except' => ['create', 'store', 'show']]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'stations'])->name('home')->middleware('verified');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'stations'])->name('home'); //->middleware('verified');
 
-Route::get('/settings', [App\Http\Controllers\General\SettingsController::class, 'index'])->name('settings_index')->middleware('verified');;
+Route::get('/settings', [App\Http\Controllers\General\SettingsController::class, 'index'])->name('settings_index'); // ->middleware('verified');;
 
 Route::get('/disabled', [App\Http\Controllers\HomeController::class, 'disabled'])->name('disabled');
 
@@ -39,3 +39,9 @@ Route::post('/settings/update_password', [App\Http\Controllers\General\SettingsC
 Route::delete('/settings/delete_account', [App\Http\Controllers\General\SettingsController::class, 'delete_account'])->name('delete_account');
 
 Route::post('/settings/update_avatar', [App\Http\Controllers\General\SettingsController::class, 'update_avatar'])->name('update_avatar');
+
+Route::post('/home', [App\Http\Controllers\HomeController::class, 'addStation'])->name('addStation');
+
+Route::post('/home', [App\Http\Controllers\HomeController::class, 'addVehicle'])->name('addVehicle');
+
+Route::post('/home', [App\Http\Controllers\HomeController::class, 'addSensor'])->name('addSensor');
