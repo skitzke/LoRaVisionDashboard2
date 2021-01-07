@@ -42,6 +42,7 @@ class SettingsController extends Controller
             ->with('success','You have successfully upload image.');
 
     }
+
     public function update_name(Request $request)
     {
         DB::table('users')

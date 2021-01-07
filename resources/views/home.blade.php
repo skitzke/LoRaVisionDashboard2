@@ -12,7 +12,7 @@
                             @foreach($stations as $station)
                                 @php(++$i)
                                 <div id="station{{ $i }}" class="col border nav-link p-5 transition">
-                                    <button type="button" class="btn w-100" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
+                                    <button type="button" class="btn w-100 shadow-none" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
                                         {{ $station['name'] }}
                                     </button>
 
@@ -143,19 +143,19 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <label for="validationDefault01" class="form-label">Station name</label>
-                                                                <input type="text" class="form-control" id="validationDefault01" value="name" required>
+                                                                <input type="text" class="form-control" id="validationDefault01" name="name" required>
                                                             </div>
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">City</label>
-                                                                <input type="text" class="form-control" id="validationDefault02" value="city" required>
+                                                                <input type="text" class="form-control" id="validationDefault02" name="city" required>
                                                             </div>
 
                                                             <div class="w-100"></div>
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">Address</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" value="address" required>
+                                                                <input type="text" class="form-control" id="validationDefault03" name="address" required>
                                                             </div>
 
                                                             <div class="col">

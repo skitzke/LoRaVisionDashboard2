@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Request;
 
 class ApiController extends Controller
 {
@@ -19,24 +20,24 @@ class ApiController extends Controller
 
     public function addStations(Request $request)
     {
-        $inputs = Input::all();
-        $client = new Client([
-            'headers' => [ 'Content-Type' => 'application/json' ]
+        $input = $request::all();
+
+        $client = new Client();
+
+        $uri = 'http://167.86.94.244:8090/stations';
+        $client->post($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'auth' => [
+                'qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh'
+            ],
+            'json' => [
+                'name' => $input['name'],
+                'city' => $input['city'],
+                'address' => $input['address'],
+                'zipCode' => $input['zipCode']
+            ]
         ]);
-
-        $url = '67.86.94.244:8090/swagger-ui.html/stations';
-        $response = $client->post($url,
-            ['body' => json_encode(
-                [
-                    'name' => 'World',
-                    'city' => 'World',
-                    'address' => 'World',
-                    'zipCode' => 'World'
-                ]
-            )]
-        );
-
-        echo $response->getBody();
 
         return redirect()->route('home');
     }

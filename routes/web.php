@@ -40,9 +40,9 @@ Route::delete('/settings/delete_account', [App\Http\Controllers\General\Settings
 
 Route::post('/settings/update_avatar', [App\Http\Controllers\General\SettingsController::class, 'update_avatar'])->name('update_avatar');
 
-Route::post('/home/addStation', [App\Http\Controllers\General\ApiController::class, 'addStation'])->name('addStations');
+Route::post('/home/addStation', [App\Http\Controllers\General\ApiController::class, 'addStations'])->name('addStations');
 
-Route::post('/home/addVehicle', [App\Http\Controllers\General\ApiController::class, 'addVehicle'])->name('addVehicles');
+Route::post('/home/addVehicle', [App\Http\Controllers\General\ApiController::class, 'addVehicles'])->name('addVehicles');
 
-Route::post('/home/addSensor', [App\Http\Controllers\General\ApiController::class, 'addSensor'])->name('addSensors');
+Route::post('/home/addSensor', [App\Http\Controllers\General\ApiController::class, 'addSensors'])->name('addSensors');
 
