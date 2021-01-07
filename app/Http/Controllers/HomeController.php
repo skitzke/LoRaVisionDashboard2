@@ -29,28 +29,13 @@ class HomeController extends Controller
 
     public function stations()
     {
-        $stations = Http::withBasicAuth('Yy2zY8YRkXh5mjGF99WnZUtNX4NfQbwaFEzBAnYCgVVHFjN7u4vXBkzwU85HFK5P',
-            'qPXZxknxjyQBBEwr4tHEDVB49cpQQhpN2UEKme85TJET78tPJZbxxNmw42puwYCq')->get('http://167.86.94.244:8090/stations')->json();
+        $stations = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/stations')->json();
         return view('home', ['stations' => $stations]);
     }
 
     public function disabled()
     {
         return view('disabled');
-    }
-
-    public function addStation(Request $request)
-    {
-        return redirect()->route('home');
-    }
-
-    public function addVehicle(Request $request)
-    {
-        return redirect()->route('home');
-    }
-
-    public function addSensor(Request $request)
-    {
-        return redirect()->route('home');
     }
 }

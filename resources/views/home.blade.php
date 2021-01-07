@@ -52,8 +52,8 @@
             </div>
             <div class="col-md-3">
                 <div class="card p-3">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-{{--                    Alert Log--}}
+                    {{--          <div class="card-header">{{ __('Dashboard') }}</div>
+                            Alert Log--}}
                     <div class="card-body scrollbar scrollbar-primary">
 {{--                        THIS IS THE ALERT LOG BUTTON--}}
                         <button data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-action rounded-bottom">
@@ -135,51 +135,43 @@
                                             <div class="modal-body">
 
 
-                                                <form action="{{route('addStation')}}" class="row g-3" method="POST">
+                                                <form action="{{route('addStations')}}" class="input-group" method="POST">
                                                     @csrf
                                                     @method('POST')
-                                                    <div class="col-md-4">
-                                                        <label for="validationDefault01" class="form-label">First name</label>
-                                                        <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="validationDefault02" class="form-label">Last name</label>
-                                                        <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="validationDefaultUsername" class="form-label">Username</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                                                            <input type="text" class="form-control" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" required>
+
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">Station name</label>
+                                                                <input type="text" class="form-control" id="validationDefault01" value="name" required>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">City</label>
+                                                                <input type="text" class="form-control" id="validationDefault02" value="city" required>
+                                                            </div>
+
+                                                            <div class="w-100"></div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Address</label>
+                                                                <input type="text" class="form-control" id="validationDefault03" value="address" required>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault03" class="form-label">Zip code</label>
+                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="p-2 mt-2">
+                                                            <button class="btn btn-primary" type="submit">Submit form</button>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label for="validationDefault03" class="form-label">City</label>
-                                                        <input type="text" class="form-control" id="validationDefault03" required>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label for="validationDefault04" class="form-label">State</label>
-                                                        <select class="form-select" id="validationDefault04" required>
-                                                            <option selected disabled value="">Choose...</option>
-                                                            <option>...</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label for="validationDefault05" class="form-label">Zip</label>
-                                                        <input type="text" class="form-control" id="validationDefault05" required>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                                                            <label class="form-check-label" for="invalidCheck2">
-                                                                Agree to terms and conditions
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <button class="btn btn-primary" type="submit">Submit form</button>
-                                                    </div>
+
                                                 </form>
+
+
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
