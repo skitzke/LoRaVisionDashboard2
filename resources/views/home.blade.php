@@ -160,7 +160,7 @@
 
                                                             <div class="col">
                                                                 <label for="validationDefault03" class="form-label">Zip code</label>
-                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" required>
+                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="/^(?:NL-)?(\d{4})\s*([A-Z]{2})$/i" required>
                                                             </div>
                                                         </div>
 
@@ -189,9 +189,52 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <ul class="scrollbar scrollbar-primary">
-                                                    <li class="list-group-item">adding here</li>
-                                                </ul>
+                                                <form action="{{route('addVehicles')}}" class="input-group" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">Default voltage</label>
+                                                                <select class="form-control" id="validationDefault01" name="defaultBatteryVoltage" required>
+                                                                    <option>12 Volt</option>
+                                                                    <option>24 Volt</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
+                                                                <select class="form-control" id="validationDefault02" name="stationId" required>
+                                                                    @foreach($stations as $station)
+                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="w-100"></div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicle number</label>
+                                                                <input type="text" class="form-control" id="validationDefault03" name="vehicleNumber" required>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault03" class="form-label">Vehicle type</label>
+                                                                <select class="form-control" id="validationDefault02" name="vehicleTypeId" required>
+                                                                    @foreach($vehicleTypes as $type)
+                                                                        <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="p-2 mt-2">
+                                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -209,9 +252,54 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <ul class="scrollbar scrollbar-primary">
-                                                    <li class="list-group-item">adding here</li>
-                                                </ul>
+                                                <form action="{{route('addVehicles')}}" class="input-group" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
+                                                                <select class="form-control" id="validationDefault01" name="truckId" required>
+                                                                    @foreach($trucks as $truck)
+                                                                        <option value="{{$truck['id']}}">{{$truck['vehicleNumber']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
+                                                                <select class="form-control" id="validationDefault02" name="defaultBatteryVoltage" required>
+                                                                    @foreach($stations as $station)
+                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="w-100"></div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicle number</label>
+                                                                <input type="text" class="form-control" id="validationDefault03" name="vehicleNumber" required>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault03" class="form-label">Vehicle type</label>
+                                                                <select class="form-control" id="validationDefault02" name="defaultBatteryVoltage" required>
+                                                                    @foreach($vehicleTypes as $type)
+                                                                        <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="p-2 mt-2">
+                                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
