@@ -46,3 +46,5 @@ Route::post('/home/addVehicle', [App\Http\Controllers\General\ApiController::cla
 
 Route::post('/home/addSensor', [App\Http\Controllers\General\ApiController::class, 'addSensors'])->name('addSensors');
 
+Route::post('/home/deleteVehicle', [App\Http\Controllers\General\ApiController::class, 'deleteVehicle'])->name('deleteVehicle');
+

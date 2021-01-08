@@ -27,22 +27,32 @@
                                                     <th scope="col">Default voltage</th>
                                                     <th scope="col">Interior temp.</th>
                                                     <th scope="col">Battery temp.</th>
+                                                    <th scope="col">Current voltage</th>
                                                     <th scope="col">Reset communication</th>
                                                     <th scope="col">Reset navigation</th>
                                                     <th scope="col">Delete vehicle</th>
                                                 </tr>
                                             </thead>
-                                        {{--<tbody>
-                                            @foreach($trucks as $truck)
+                                            <tbody>
+                                            @foreach($station['trucks'] as $truck)
                                                 <tr>
                                                     <td>{{$truck['vehicleNumber']}}</td>
                                                     <td>{{$truck['defaultBatteryVoltage']}}</td>
-                                                    <td>{{$truck['id']}}</td>
-                                                    <td>{{$truck['id']}}</td>
-                                                    <td>{{$truck['id']}}</td>
+                                                    <td>I.Temp{{--$truck['reading']['interiorTemp']--}}</td>
+                                                    <td>B.Temp{{--$truck['reading']['battryTemp']--}}</td>
+                                                    <td>Voltage{{--$truck['reading']['voltage']--}}</td>
+                                                    <td><button type="button" class="btn btn-outline-primary">Reset</button></td>
+                                                    <td><button type="button" class="btn btn-outline-secondary">Reset</button></td>
+                                                    <td>
+                                                        <form action="{{route('deleteVehicle')}}" method="post">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <button type="submit" class="btn btn-outline-danger" value="{{$truck['id']}}">Delete</button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                             @endforeach
-                                        </tbody>--}}
+                                        </tbody>
                                     </table>
                                     </div>
                                 </div>
@@ -160,7 +170,7 @@
 
                                                             <div class="col">
                                                                 <label for="validationDefault03" class="form-label">Zip code</label>
-                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="/^(?:NL-)?(\d{4})\s*([A-Z]{2})$/i" required>
+                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>
                                                             </div>
                                                         </div>
 
@@ -198,8 +208,8 @@
                                                             <div class="col">
                                                                 <label for="validationDefault01" class="form-label">Default voltage</label>
                                                                 <select class="form-control" id="validationDefault01" name="defaultBatteryVoltage" required>
-                                                                    <option>12 Volt</option>
-                                                                    <option>24 Volt</option>
+                                                                    <option value="12">12 Volt</option>
+                                                                    <option value="24">24 Volt</option>
                                                                 </select>
                                                             </div>
 
@@ -221,7 +231,7 @@
 
                                                             <div class="col">
                                                                 <label for="validationDefault03" class="form-label">Vehicle type</label>
-                                                                <select class="form-control" id="validationDefault02" name="vehicleTypeId" required>
+                                                                <select class="form-control" id="validationDefault04" name="vehicleTypeId" required>
                                                                     @foreach($vehicleTypes as $type)
                                                                         <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
                                                                     @endforeach
