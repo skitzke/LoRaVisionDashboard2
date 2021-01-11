@@ -99,6 +99,8 @@ class ApiController extends Controller
 
         $uri = 'http://167.86.94.244:8090/trucks/';
         Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-            'KULv6qYx9YA8hXfh')->delete($uri . $input['id']);
+            'KULv6qYx9YA8hXfh')->delete($uri . $input['truckId']);
+
+        return redirect()->route('home');
     }
 }

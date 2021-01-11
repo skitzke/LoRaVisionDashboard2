@@ -25,9 +25,9 @@
                                                 <tr>
                                                     <th scope="col">Vehicle number</th>
                                                     <th scope="col">Default voltage</th>
-                                                    <th scope="col">Interior temp.</th>
-                                                    <th scope="col">Battery temp.</th>
                                                     <th scope="col">Current voltage</th>
+                                                    <th scope="col">Battery temp.</th>
+                                                    <th scope="col">Interior temp.</th>
                                                     <th scope="col">Reset communication</th>
                                                     <th scope="col">Reset navigation</th>
                                                     <th scope="col">Delete vehicle</th>
@@ -35,22 +35,31 @@
                                             </thead>
                                             <tbody>
                                             @foreach($station['trucks'] as $truck)
+
                                                 <tr>
                                                     <td>{{$truck['vehicleNumber']}}</td>
                                                     <td>{{$truck['defaultBatteryVoltage']}}</td>
-                                                    <td>I.Temp{{--$truck['reading']['interiorTemp']--}}</td>
-                                                    <td>B.Temp{{--$truck['reading']['battryTemp']--}}</td>
-                                                    <td>Voltage{{--$truck['reading']['voltage']--}}</td>
+
+                                                    @if($truck['arduino'] != null && count($truck['arduino']['readings']) > 0)
+                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryVoltage'], 2)}}</td>
+                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryTemperature'], 2)}}</td>
+                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['interiorTemperature'], 2)}}</td>
+                                                    @else
+                                                        <td>No data</td>
+                                                        <td>No data</td>
+                                                        <td>No data</td>
+                                                    @endif
                                                     <td><button type="button" class="btn btn-outline-primary">Reset</button></td>
                                                     <td><button type="button" class="btn btn-outline-secondary">Reset</button></td>
                                                     <td>
                                                         <form action="{{route('deleteVehicle')}}" method="post">
                                                             @csrf
                                                             @method('POST')
-                                                            <button type="submit" class="btn btn-outline-danger" value="{{$truck['id']}}">Delete</button>
+                                                            <button type="submit" class="btn btn-outline-danger" name="truckId" value="{{$truck['id']}}">Delete</button>
                                                         </form>
                                                     </td>
                                                 </tr>
+
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -153,19 +162,19 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <label for="validationDefault01" class="form-label">Station name</label>
-                                                                <input type="text" class="form-control" id="validationDefault01" name="name" required>
+                                                                <input type="text" class="form-control" id="validationDefault01" pattern="[a-zA-Z]*" name="name" required>
                                                             </div>
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">City</label>
-                                                                <input type="text" class="form-control" id="validationDefault02" name="city" required>
+                                                                <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>
                                                             </div>
 
                                                             <div class="w-100"></div>
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">Address</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" name="address" required>
+                                                                <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>
                                                             </div>
 
                                                             <div class="col">
@@ -286,21 +295,6 @@
                                                                 </select>
                                                             </div>
 
-                                                            <div class="w-100"></div>
-
-                                                            <div class="col">
-                                                                <label for="validationDefault02" class="form-label">Vehicle number</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" name="vehicleNumber" required>
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <label for="validationDefault03" class="form-label">Vehicle type</label>
-                                                                <select class="form-control" id="validationDefault02" name="defaultBatteryVoltage" required>
-                                                                    @foreach($vehicleTypes as $type)
-                                                                        <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
                                                         </div>
 
                                                         <div class="p-2 mt-2">
