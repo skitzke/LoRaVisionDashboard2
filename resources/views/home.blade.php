@@ -311,6 +311,202 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button id="editing" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('editing')">
+                                    Editing
+                                </button>
+                                <div>
+                                    <div id="editing-form" class="form-group card-body p-0" hidden>
+                                        <ul class="list-group">
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                {{--                        THIS IS THE ADDING STATIONS BUTTON--}}
+                                                <button data-toggle="modal" data-target="#editingStation" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Edit Stations
+                                                </button>
+                                            </li>
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                {{--                        THIS IS THE ADDING VEHICLES BUTTON--}}
+                                                <button data-toggle="modal" data-target="#editingVehicle" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Edit Vehicles
+                                                </button>
+                                            </li>
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                {{--                        THIS IS THE ADDING SENSORS BUTTON--}}
+                                                <button data-toggle="modal" data-target="#editingSensor" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Edit Sensors
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING STATIONS--}}
+                                <div class="modal fade" id="editingStation" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Edit Stations</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+
+
+{{--                                                <form action="{{route('editStations')}}" class="input-group" method="POST">--}}
+{{--                                                    @csrf--}}
+{{--                                                    @method('POST')--}}
+
+{{--                                                    <div class="container justify-content-center">--}}
+{{--                                                        <div class="row">--}}
+{{--                                                            <div class="col">--}}
+{{--                                                                <label for="validationDefault01" class="form-label">Station name</label>--}}
+{{--                                                                <input type="text" value="{}" class="form-control" id="validationDefault01" pattern="[a-zA-Z]*" name="name" required>--}}
+{{--                                                            </div>--}}
+
+{{--                                                            <div class="col">--}}
+{{--                                                                <label for="validationDefault02" class="form-label">City</label>--}}
+{{--                                                                <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>--}}
+{{--                                                            </div>--}}
+
+{{--                                                            <div class="w-100"></div>--}}
+
+{{--                                                            <div class="col">--}}
+{{--                                                                <label for="validationDefault02" class="form-label">Address</label>--}}
+{{--                                                                <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>--}}
+{{--                                                            </div>--}}
+
+{{--                                                            <div class="col">--}}
+{{--                                                                <label for="validationDefault03" class="form-label">Zip code</label>--}}
+{{--                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+
+{{--                                                        <div class="p-2 mt-2">--}}
+{{--                                                            <button class="btn btn-primary" type="submit">Submit form</button>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+
+{{--                                                </form>--}}
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING TRUCKS VEHICLES--}}
+                                <div class="modal fade" id="editingVehicle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Edit Vehicles</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{route('editVehicles')}}" class="input-group" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">Default voltage</label>
+                                                                <select class="form-control" id="validationDefault01" name="defaultBatteryVoltage" required>
+                                                                    <option value="12">12 Volt</option>
+                                                                    <option value="24">24 Volt</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
+                                                                <select class="form-control" id="validationDefault02" name="stationId" required>
+                                                                    @foreach($stations as $station)
+                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="w-100"></div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicle number</label>
+                                                                <input type="text" class="form-control" id="validationDefault03" name="vehicleNumber" required>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault03" class="form-label">Vehicle type</label>
+                                                                <select class="form-control" id="validationDefault04" name="vehicleTypeId" required>
+                                                                    @foreach($vehicleTypes as $type)
+                                                                        <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="p-2 mt-2">
+                                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING SENSORS--}}
+                                <div class="modal fade" id="editingSensor" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Edit Sensors</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{route('editVehicles')}}" class="input-group" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
+                                                                <select class="form-control" id="validationDefault01" name="truckId" required>
+                                                                    @foreach($trucks as $truck)
+                                                                        <option value="{{$truck['id']}}">{{$truck['vehicleNumber']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
+                                                                <select class="form-control" id="validationDefault02" name="defaultBatteryVoltage" required>
+                                                                    @foreach($stations as $station)
+                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="p-2 mt-2">
+                                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endcan
                         @endif
                     </div>

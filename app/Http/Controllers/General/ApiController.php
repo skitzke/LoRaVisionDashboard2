@@ -103,4 +103,47 @@ class ApiController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function sortupdate(Request $response)
+    {
+        $get_result_arr = json_decode($response->getContent());
+
+        foreach($get_result_arr as $result){
+            $lists = $result->lists;
+        }
+    }
+
+    public function editStations(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $input = $request::all();
+
+        $client = new Client();
+
+        $uri = 'http://167.86.94.244:8090/stations';
+        $client->get($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'auth' => [
+                'qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh'
+            ],
+            'json' => [
+                'name' => $input['name'],
+                'city' => $input['city'],
+                'address' => $input['address'],
+                'zipCode' => $input['zipCode']
+            ]
+        ]);
+
+        return redirect()->route('home');
+    }
+
+    public function editVehicles()
+    {
+
+    }
+
+    public function editSensors()
+    {
+
+    }
 }
