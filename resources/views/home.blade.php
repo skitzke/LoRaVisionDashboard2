@@ -354,10 +354,10 @@
                                                     @php(++$id)
 
                                                     <div id="editStations{{ $id }}" class="col border nav-link p-3 transition">
-                                                        <button type="button" class="btn shadow-none" data-target="#editStations{{ $id }}" onclick="show_form('editingStations')">
+                                                        <button type="button" class="btn shadow-none" data-target="#editStations{{ $id }}" onclick="show_form('editingStations{{ $id }}')">
                                                             {{ $station['name'] }}
                                                         </button>
-                                                    <form action="{{route('editStations')}}" class="input-group openCloseContents" id="editingStations-form{{ $id }}" method="POST">
+                                                    <form action="{{route('editStations')}}" class="form-group card-body p-0" hidden id="editingStations{{ $id }}-form" method="POST">
                                                         @csrf
                                                         @method('POST')
 
