@@ -318,19 +318,19 @@
                                     <div id="editing-form" class="form-group card-body p-0" hidden>
                                         <ul class="list-group">
                                             <li class="list-group-item w-100 p-0 border-0">
-                                                {{--                        THIS IS THE ADDING STATIONS BUTTON--}}
+                                                {{--                        THIS IS THE EDIT STATIONS BUTTON--}}
                                                 <button data-toggle="modal" data-target="#editingStation" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
                                                     Edit Stations
                                                 </button>
                                             </li>
                                             <li class="list-group-item w-100 p-0 border-0">
-                                                {{--                        THIS IS THE ADDING VEHICLES BUTTON--}}
+                                                {{--                        THIS IS THE EDIT VEHICLES BUTTON--}}
                                                 <button data-toggle="modal" data-target="#editingVehicle" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
                                                     Edit Vehicles
                                                 </button>
                                             </li>
                                             <li class="list-group-item w-100 p-0 border-0">
-                                                {{--                        THIS IS THE ADDING SENSORS BUTTON--}}
+                                                {{--                        THIS IS THE EDIT SENSORS BUTTON--}}
                                                 <button data-toggle="modal" data-target="#editingSensor" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
                                                     Edit Sensors
                                                 </button>
@@ -339,7 +339,7 @@
                                     </div>
                                 </div>
 
-                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING STATIONS--}}
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS EDIT STATIONS--}}
                                 <div class="modal fade" id="editingStation" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -347,17 +347,71 @@
                                                 <h4>Edit Stations</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
+
                                             <div class="modal-body">
 
-                                                @php($id = 0)
-                                                @foreach($stations as $station)
-                                                    @php(++$id)
+                                                    <div id="editStations" class="col border nav-link p-3 transition">
 
-                                                    <div id="editStations{{ $id }}" class="col border nav-link p-3 transition">
-                                                        <button type="button" class="btn shadow-none" data-target="#editStations{{ $id }}" onclick="show_form('editingStations{{ $id }}')">
-                                                            {{ $station['name'] }}
+                                                        <form action="{{route('addStations')}}" class="input-group" method="POST">
+                                                            @csrf
+                                                            @method('POST')
+
+                                                            <div class="container justify-content-center">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <label for="stationSelect" class="form-label">Choose station to edit</label>
+
+                                                                        <datalist id="allStations">
+                                                                            @foreach($stations as $station)
+                                                                                <option data-value="{{$station['id']}}">{{$station['name']}}</option>
+                                                                            @endforeach
+                                                                        </datalist>
+                                                                        <input class="form-control" list="allStations" id="stationSelect" pattern="[a-zA-Z]*" name="name" autocomplete="off" required>
+                                                                    </div>
+
+                                                                    <div class="col">
+                                                                        <label for="validationDefault02" class="form-label">City</label>
+                                                                        <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>
+                                                                    </div>
+
+                                                                    <div class="w-100"></div>
+
+                                                                    <div class="col">
+                                                                        <label for="validationDefault02" class="form-label">Address</label>
+                                                                        <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>
+                                                                    </div>
+
+                                                                    <div class="col">
+                                                                        <label for="validationDefault03" class="form-label">Zip code</label>
+                                                                        <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="p-2 mt-2">
+                                                                    <button class="btn btn-primary" type="submit">Submit form</button>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
+
+                                                        {{--<label for="exampleDataList" class="form-label">Choose station to edit</label>
+                                                        <input class="form-control" list="allStations" id="stationSelect">
+                                                        <datalist id="allStations">
+                                                            @foreach($stations as $station)
+                                                                <option data-value="{{$station['id']}}">{{$station['name']}}</option>
+                                                            @endforeach
+                                                        </datalist>
+                                                        <button class="btn btn-primary mt-3">Edit selected</button>
+
+
+                                                        <button type="button" class="btn shadow-none"
+                                                                data-target="#editStations"
+                                                                onclick="show_form('editingStations')">
+                                                            Edit set station
                                                         </button>
-                                                    <form action="{{route('editStations')}}" class="form-group card-body p-0" hidden id="editingStations{{ $id }}-form" method="POST">
+
+
+                                                    <form action="{{route('editStations')}}" class="form-group card-body p-0" hidden id="editingStations-form" method="POST">
                                                         @csrf
                                                         @method('POST')
 
@@ -391,11 +445,8 @@
                                                             </div>
                                                         </div>
 
-                                                    </form>
+                                                    </form>--}}
                                                     </div>
-                                                @endforeach
-
-
 
 
                                             </div>
