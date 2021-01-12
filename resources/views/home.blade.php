@@ -349,42 +349,53 @@
                                             </div>
                                             <div class="modal-body">
 
+                                                @php($id = 0)
+                                                @foreach($stations as $station)
+                                                    @php(++$id)
 
-{{--                                                <form action="{{route('editStations')}}" class="input-group" method="POST">--}}
-{{--                                                    @csrf--}}
-{{--                                                    @method('POST')--}}
+                                                    <div id="editStations{{ $id }}" class="col border nav-link p-3 transition">
+                                                        <button type="button" class="btn shadow-none" data-target="#editStations{{ $id }}" onclick="show_form('editingStations')">
+                                                            {{ $station['name'] }}
+                                                        </button>
+                                                    <form action="{{route('editStations')}}" class="input-group openCloseContents" id="editingStations-form{{ $id }}" method="POST">
+                                                        @csrf
+                                                        @method('POST')
 
-{{--                                                    <div class="container justify-content-center">--}}
-{{--                                                        <div class="row">--}}
-{{--                                                            <div class="col">--}}
-{{--                                                                <label for="validationDefault01" class="form-label">Station name</label>--}}
-{{--                                                                <input type="text" value="{}" class="form-control" id="validationDefault01" pattern="[a-zA-Z]*" name="name" required>--}}
-{{--                                                            </div>--}}
+                                                        <div class="container justify-content-center">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <label for="validationDefault01" class="form-label">Station name</label>
+                                                                    <input type="text" value="{{ $station['name'] }}" class="form-control" id="validationDefault01" pattern="[a-zA-Z]*" name="name" required>
+                                                                </div>
 
-{{--                                                            <div class="col">--}}
-{{--                                                                <label for="validationDefault02" class="form-label">City</label>--}}
-{{--                                                                <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>--}}
-{{--                                                            </div>--}}
+                                                                <div class="col">
+                                                                    <label for="validationDefault02" class="form-label">City</label>
+                                                                    <input type="text" value="{{ $station['city'] }}" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>
+                                                                </div>
 
-{{--                                                            <div class="w-100"></div>--}}
+                                                                <div class="w-100"></div>
 
-{{--                                                            <div class="col">--}}
-{{--                                                                <label for="validationDefault02" class="form-label">Address</label>--}}
-{{--                                                                <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>--}}
-{{--                                                            </div>--}}
+                                                                <div class="col">
+                                                                    <label for="validationDefault02" class="form-label">Address</label>
+                                                                    <input type="text" value="{{ $station['address'] }}" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>
+                                                                </div>
 
-{{--                                                            <div class="col">--}}
-{{--                                                                <label for="validationDefault03" class="form-label">Zip code</label>--}}
-{{--                                                                <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
+                                                                <div class="col">
+                                                                    <label for="validationDefault03" class="form-label">Zip code</label>
+                                                                    <input type="text" value="{{ $station['zipCode']  }}" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>
+                                                                </div>
+                                                            </div>
 
-{{--                                                        <div class="p-2 mt-2">--}}
-{{--                                                            <button class="btn btn-primary" type="submit">Submit form</button>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
+                                                            <div class="p-2 mt-2">
+                                                                <button class="btn btn-primary" type="submit">Submit form</button>
+                                                            </div>
+                                                        </div>
 
-{{--                                                </form>--}}
+                                                    </form>
+                                                    </div>
+                                                @endforeach
+
+
 
 
                                             </div>
