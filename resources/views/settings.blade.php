@@ -7,25 +7,28 @@
                 <div class="card">
                     <div class="card-header">{{ __('Profile settings') }}</div>
                       <div class="card-body row row-cols-2 modal-dialog-scrollable justify-content-center text-center">
-                        <div>
+                        <div class="p-2">
                           <script>function show_form(option_id) {
                                   let form = document.getElementById(option_id + '-form');
                                   form.hidden = form.hidden !== true;
                               }</script>
-                          @if ($message = Session::get('success1'))
 
-                              <div class="alert alert-success alert-block">
-
-                                  <button type="button" class="close" data-dismiss="alert">×</button>
-
-                                  <strong>{{ $message }}</strong>
-
-                              </div>
-
-                          @endif
                           <div>
                               <div id="adding-form" class="form-group card-body p-0">
                                   <ul class="list-group">
+                                      <li class="list-group-item w-100 p-0 border-0 m-2">
+                                          @if ($message = Session::get('success1'))
+
+                                              <div class="alert alert-success alert-block m-0">
+
+                                                  <button type="button" class="close" data-dismiss="alert">×</button>
+
+                                                  <strong>{{ $message }}</strong>
+
+                                              </div>
+
+                                          @endif
+                                      </li>
                                       <li class="list-group-item w-100 p-0 border-0 m-2">
                                           {{--                        THIS IS THE UpdateName BUTTON--}}
                                           <button data-toggle="modal" data-target="#updateName" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
