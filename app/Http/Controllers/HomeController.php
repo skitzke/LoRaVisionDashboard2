@@ -38,9 +38,13 @@ class HomeController extends Controller
         $trucks = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
             'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/trucks')->json();
 
+        $aAlerts = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/readings/getAllAlerts')->json();
 
+        $cAlerts = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/readings/getAllCurrentAlerts')->json();
 
-        return view('home', ['stations' => $stations, 'vehicleTypes' => $vehicleType, 'trucks' => $trucks]);
+        return view('home', ['stations' => $stations, 'vehicleTypes' => $vehicleType, 'trucks' => $trucks, 'aAlerts' => $aAlerts, 'cAlerts' => $cAlerts]);
     }
 
     public function disabled()

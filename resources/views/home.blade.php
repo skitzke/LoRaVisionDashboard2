@@ -81,17 +81,37 @@
 {{--                        THIS IS THE POP-UP WHEN YOU PRESS ALERT LOG--}}
                         <div class="modal fade" id="myModal" aria-hidden="true">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content" style="max-height: 75vh">
                                     <div class="modal-header">
                                         <h4>Alert Log</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
-                                    <div class="modal-body">
-                                            <ul class="scrollbar scrollbar-primary">
-                                                <li class="list-group-item">Stations notifcation 1</li>
-                                                <li class="list-group-item">Stations notifcation 2</li>
-                                                <li class="list-group-item">Stations notifcation 3</li>
-                                            </ul>
+                                    <div class="modal-body scrollbar scrollbar-primary" style="overflow-y: auto">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Vehicle</th>
+                                                <th scope="col">Voltage</th>
+                                                <th scope="col">Battery temp.</th>
+                                                <th scope="col">Interior temp.</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($aAlerts as $alert)
+                                                <tr>
+                                                    <td>{{$alert['arduino']['truck']['station']['city']}}&nbsp;
+                                                        {{$alert['arduino']['truck']['station']['address']}}&nbsp;
+                                                        {{$alert['arduino']['truck']['station']['zipCode']}}
+                                                    </td>
+                                                    <td>{{$alert['arduino']['truck']['vehicleNumber']}}</td>
+                                                    <td>{{$alert['batteryVoltage']}}</td>
+                                                    <td>{{$alert['batteryTemperature']}}</td>
+                                                    <td>{{$alert['interiorTemperature']}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -99,18 +119,26 @@
                                 </div>
                             </div>
                         </div>
-{{--                        THIS DEALS WITH THE ALERTS BUTTON--}}
-                        <button id="alerts" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('alerts')">
-                            Alerts
+                        {{--                        THIS IS THE CURRENT ALERT BUTTON--}}
+                        <button data-toggle="modal" data-target="#currentAlerts" class="list-group-item list-group-item-action rounded-bottom">
+                            Current Alerts
                         </button>
-                        <div>
-                            <form id="alerts-form" class="form-group card-body pt-0 pb-0" method="post" hidden>
-                                <ul class="list-group">
-                                    <li class="list-group-item">Stations with the lowest voltage 1</li>
-                                    <li class="list-group-item">Stations with the lowest voltage 2</li>
-                                    <li class="list-group-item">Stations with the lowest voltage 3</li>
-                                </ul>
-                            </form>
+                        {{--                        THIS IS THE POP-UP WHEN YOU PRESS CURRENT ALERT--}}
+                        <div class="modal fade" id="currentAlerts" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="max-height: 75vh">
+                                    <div class="modal-header">
+                                        <h4>Current Alerts</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body scrollbar scrollbar-primary" style="overflow-y: auto">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         @if(Route::has('login'))
                             @can('adminRights')
