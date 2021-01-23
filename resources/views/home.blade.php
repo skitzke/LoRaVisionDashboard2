@@ -132,7 +132,40 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="modal-body scrollbar scrollbar-primary" style="overflow-y: auto">
-
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Location</th>
+                                                    <th scope="col">Vehicle</th>
+                                                    <th scope="col">Voltage</th>
+                                                    <th scope="col">Battery temp.</th>
+                                                    <th scope="col">Interior temp.</th>
+                                                    <th scope="col">Resolve</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($cAlerts as $alert)
+                                                <tr>
+                                                    <td>
+                                                        {{$alert['arduino']['truck']['station']['city']}}&nbsp;
+                                                        {{$alert['arduino']['truck']['station']['address']}}&nbsp;
+                                                        {{$alert['arduino']['truck']['station']['zipCode']}}
+                                                    </td>
+                                                    <td>{{$alert['arduino']['truck']['vehicleNumber']}}</td>
+                                                    <td>{{$alert['batteryVoltage']}}</td>
+                                                    <td>{{$alert['batteryTemperature']}}</td>
+                                                    <td>{{$alert['interiorTemperature']}}</td>
+                                                    <td>
+                                                        <form action="{{route('resolve')}}" method="POST">
+                                                        @csrf
+                                                        @method('POST')
+                                                            <button type="submit" name="resolve" value="{{$alert['arduino']['id']}}" class="btn btn-primary float-left">Resolve</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

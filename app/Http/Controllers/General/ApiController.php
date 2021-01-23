@@ -146,4 +146,25 @@ class ApiController extends Controller
     {
 
     }
+
+    public function resolveAlert(Request $request)
+    {
+        $input = $request::all();
+
+        $client = new Client();
+
+        $uri = 'http://167.86.94.244:8090/arduino/' . $input['resolve'];
+        $client->put($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'auth' => [
+                'qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh'
+            ],
+            'json' => [
+                'resolved' => true
+            ]
+        ]);
+
+        return redirect()->route('home');
+    }
 }

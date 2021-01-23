@@ -51,3 +51,5 @@ Route::get('/home/editVehicle', [App\Http\Controllers\General\ApiController::cla
 
 Route::post('/home/deleteVehicle', [App\Http\Controllers\General\ApiController::class, 'deleteVehicle'])->name('deleteVehicle');
 
+Route::post('/home/resolveAlert', [App\Http\Controllers\General\ApiController::class, 'resolveAlert'])->name('resolve');
+
