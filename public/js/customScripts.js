@@ -20,15 +20,16 @@ function show_station_data(station_id)
         if (current_div.classList.contains('stationSize'))
         {
             current_div.classList.remove('stationSize');
-            next_div.hidden = false;
             div_contents.classList.add('openCloseContents');
+            next_div.hidden = false;
         }
         // This is when you're opening the ODD div
         else
         {
             current_div.classList.add('stationSize');
+            setTimeout(function(){div_contents.classList.remove('openCloseContents');}, 400);
+
             next_div.hidden = true;
-            div_contents.classList.remove('openCloseContents');
         }
     }
     else
@@ -37,15 +38,16 @@ function show_station_data(station_id)
             if (current_div.classList.contains('stationSize'))
             {
                 current_div.classList.remove('stationSize');
-                previous_div.hidden = false;
                 div_contents.classList.add('openCloseContents');
+                previous_div.hidden = false;
             }
             //This is when you're opening the EVEN div
             else
             {
                 current_div.classList.add('stationSize');
+                setTimeout(function(){div_contents.classList.remove('openCloseContents');}, 400);
                 previous_div.hidden = true;
-                div_contents.classList.remove('openCloseContents');
             }
         }
+
 }

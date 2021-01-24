@@ -4,6 +4,7 @@ namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 
@@ -77,19 +78,22 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = 'http://167.86.94.244:8090/arduinos';
-        $client->post($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'devId' => $input['devId'],
-                'resolved' => false,
-                'truck' => ['id' => $input['truckId']],
-                'downLinkUrl' => 'tmp'
-            ]
-        ]);
+        try {
+            $client->post($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'devId' => $input['devId'],
+                    'resolved' => false,
+                    'truck' => ['id' => $input['truckId']],
+                    'downLinkUrl' => 'tmp'
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
         return redirect()->route('home');
     }
 
@@ -101,7 +105,18 @@ class ApiController extends Controller
         Http::withBasicAuth('qwCPqW2k9JaYeFXn',
             'KULv6qYx9YA8hXfh')->delete($uri . $input['truckId']);
 
-        return redirect()->route('home');
+        return redirect()->route('edit_index');
+    }
+
+    public function deleteStation(Request $request)
+    {
+        $input = $request::all();
+
+        $uri = 'http://167.86.94.244:8090/stations/';
+        Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->delete($uri . $input['stationId']);
+
+        return redirect()->route('edit_index');
     }
 
     public function sortupdate(Request $response)
@@ -113,28 +128,29 @@ class ApiController extends Controller
         }
     }
 
-    public function editStations(Request $request): \Illuminate\Http\RedirectResponse
+    public function editStations(Request $request)
     {
         $input = $request::all();
 
         $client = new Client();
 
-        $uri = 'http://167.86.94.244:8090/stations';
-        $client->get($uri, [
+        $uri = 'http://167.86.94.244:8090/stations/' . $input['stationId'];
+        $client->put($uri, [
             'headers' => ['Content-type' => 'application/json'],
             'auth' => [
                 'qwCPqW2k9JaYeFXn',
                 'KULv6qYx9YA8hXfh'
             ],
             'json' => [
-                'name' => $input['name'],
-                'city' => $input['city'],
+                'id' => $input['stationId'],
                 'address' => $input['address'],
+                'city' => $input['city'],
+                'name' => $input['name'],
                 'zipCode' => $input['zipCode']
             ]
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('edit_index');
     }
 
     public function editVehicles()
@@ -157,13 +173,15 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = $getArduino['downLinkUrl'];
-        $client->get($uri, [
+        $client->post($uri, [
             'headers' => ['Content-type' => 'application/json'],
             'json' => [
-                'dev_id' => $getArduino['devId'],
+                'dev_id' => strtolower($getArduino['devId']),
                 'payload_raw' => $input['reset']
             ]
         ]);
+
+        return redirect()->route('home');
     }
 
     public function resolveAlert(Request $request)
@@ -172,7 +190,7 @@ class ApiController extends Controller
 
         $client = new Client();
 
-        $uri = 'http://167.86.94.244:8090/arduino/' . $input['resolve'];
+        $uri = 'http://167.86.94.244:8090/arduinos/' . $input['resolve'];
         $client->put($uri, [
             'headers' => ['Content-type' => 'application/json'],
             'auth' => [
@@ -180,7 +198,10 @@ class ApiController extends Controller
                 'KULv6qYx9YA8hXfh'
             ],
             'json' => [
-                'resolved' => true
+                'id' => $input['id'],
+                'devId' => $input['devId'],
+                'resolved' => true,
+                'truck' => ['id' => $input['truckId']]
             ]
         ]);
 

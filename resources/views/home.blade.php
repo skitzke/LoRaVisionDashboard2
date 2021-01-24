@@ -17,7 +17,7 @@
                                         {{ $station['name'] }}
                                     </button>
 
-                                    <div id="divContents{{ $i }}" class="openCloseContents">
+                                    <div id="divContents{{ $i }}" class="openCloseContents transition">
                                         {{ $station['city'] }}
                                         {{ $station['address'] }}
                                         {{ $station['zipCode']  }}
@@ -42,20 +42,20 @@
                                                     <td>{{$truck['defaultBatteryVoltage']}}</td>
 
                                                     @if($truck['arduino'] != null && count($truck['arduino']['readings']) > 0)
-                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryVoltage'], 2)}}</td>
-                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryTemperature'], 2)}}</td>
-                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['interiorTemperature'], 2)}}</td>
+                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryVoltage'], 2)}}V</td>
+                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryTemperature'], 2)}}&deg;C</td>
+                                                        <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['interiorTemperature'], 2)}}&deg;C</td>
                                                     @else
-                                                        <td>No sensor</td>
-                                                        <td>No sensor</td>
-                                                        <td>No sensor</td>
+                                                        <td>No readings</td>
+                                                        <td>No readings</td>
+                                                        <td>No readings</td>
                                                     @endif
                                                     <td>
                                                         <form action="{{route('reset')}}" method="post">
                                                             @csrf
                                                             @method('POST')
                                                             <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
-                                                            <button type="button" name="reset" value="MQ==" class="btn btn-outline-primary">Reset</button>
+                                                            <button type="submit" name="reset" value="MQ==" class="btn btn-outline-primary">Reset</button>
                                                         </form>
                                                     </td>
                                                     <td>
@@ -63,7 +63,7 @@
                                                             @csrf
                                                             @method('POST')
                                                             <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
-                                                            <button type="button" name="reset" value="Mg==" class="btn btn-outline-secondary">Reset</button>
+                                                            <button type="submit" name="reset" value="Mg==" class="btn btn-outline-secondary">Reset</button>
                                                         </form>
                                                     </td>
                                                     <td>
@@ -116,14 +116,11 @@
                                             <tbody>
                                             @foreach($aAlerts as $alert)
                                                 <tr>
-                                                    <td>{{$alert['arduino']['truck']['station']['city']}}&nbsp;
-                                                        {{$alert['arduino']['truck']['station']['address']}}&nbsp;
-                                                        {{$alert['arduino']['truck']['station']['zipCode']}}
-                                                    </td>
-                                                    <td>{{$alert['arduino']['truck']['vehicleNumber']}}</td>
-                                                    <td>{{$alert['batteryVoltage']}}</td>
-                                                    <td>{{$alert['batteryTemperature']}}</td>
-                                                    <td>{{$alert['interiorTemperature']}}</td>
+                                                    <td>{{$alert['stationName']}}</td>
+                                                    <td>{{$alert['truckNumber']}}</td>
+                                                    <td>{{$alert['batteryVoltage']}}V</td>
+                                                    <td>{{$alert['batteryTemperature']}}&deg;C</td>
+                                                    <td>{{$alert['interiorTemperature']}}&deg;C</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -161,6 +158,7 @@
                                             </thead>
                                             <tbody>
                                             @foreach($cAlerts as $alert)
+                                               @if($cAlerts)
                                                 <tr>
                                                     <td>
                                                         {{$alert['arduino']['truck']['station']['city']}}&nbsp;
@@ -168,17 +166,21 @@
                                                         {{$alert['arduino']['truck']['station']['zipCode']}}
                                                     </td>
                                                     <td>{{$alert['arduino']['truck']['vehicleNumber']}}</td>
-                                                    <td>{{$alert['batteryVoltage']}}</td>
-                                                    <td>{{$alert['batteryTemperature']}}</td>
-                                                    <td>{{$alert['interiorTemperature']}}</td>
+                                                    <td>{{$alert['batteryVoltage']}}V</td>
+                                                    <td>{{$alert['batteryTemperature']}}&deg;C</td>
+                                                    <td>{{$alert['interiorTemperature']}}&deg;C</td>
                                                     <td>
                                                         <form action="{{route('resolve')}}" method="POST">
                                                         @csrf
                                                         @method('POST')
+                                                            <input type="hidden" name="id" value="{{$alert['arduino']['id']}}">
+                                                            <input type="hidden" name="devId" value="{{$alert['arduino']['devId']}}">
+                                                            <input type="hidden" name="truckId" value="{{$alert['arduino']['truck']['id']}}">
                                                             <button type="submit" name="resolve" value="{{$alert['arduino']['id']}}" class="btn btn-primary float-left">Resolve</button>
                                                         </form>
                                                     </td>
                                                 </tr>
+                                               @endif
                                             @endforeach
                                             </tbody>
                                         </table>
@@ -312,7 +314,7 @@
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">Vehicle number</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" name="vehicleNumber" required>
+                                                                <input type="text" class="form-control" id="validationDefault03" maxlength="6" name="vehicleNumber" required>
                                                             </div>
 
                                                             <div class="col">
@@ -365,7 +367,7 @@
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">Dev id</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" name="devId" required>
+                                                                <input type="text" class="form-control" id="validationDefault03" name="devId" pattern="[a-zA-Z]*" required>
                                                             </div>
 
                                                         </div>
@@ -384,6 +386,12 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <a href="{{route('edit_index')}}" style="text-decoration: none">
+                                    <button class="list-group-item list-group-item-action rounded-bottom">
+                                        Editing
+                                    </button>
+                                </a>
                             @endcan
                         @endif
                     </div>
