@@ -11,6 +11,7 @@
                             @php($i = 0)
                             @foreach($stations as $station)
                                 @php(++$i)
+                                {{--add if to check if station is active--}}
                                 <div id="station{{ $i }}" class="col border nav-link p-5 transition">
                                     <button type="button" class="btn w-100 shadow-none" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
                                         {{ $station['name'] }}
@@ -35,7 +36,7 @@
                                             </thead>
                                             <tbody>
                                             @foreach($station['trucks'] as $truck)
-
+                                                {{--add if to check if trucks are present--}}
                                                 <tr>
                                                     <td>{{$truck['vehicleNumber']}}</td>
                                                     <td>{{$truck['defaultBatteryVoltage']}}</td>
@@ -45,9 +46,9 @@
                                                         <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['batteryTemperature'], 2)}}</td>
                                                         <td>{{round($truck['arduino']['readings'][(count($truck['arduino']['readings']) - 1 )]['interiorTemperature'], 2)}}</td>
                                                     @else
-                                                        <td>No data</td>
-                                                        <td>No data</td>
-                                                        <td>No data</td>
+                                                        <td>No sensor</td>
+                                                        <td>No sensor</td>
+                                                        <td>No sensor</td>
                                                     @endif
                                                     <td>
                                                         <form action="{{route('reset')}}" method="post">
@@ -347,7 +348,7 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{route('addVehicles')}}" class="input-group" method="POST">
+                                                <form action="{{route('addSensors')}}" class="input-group" method="POST">
                                                     @csrf
                                                     @method('POST')
 
@@ -363,270 +364,8 @@
                                                             </div>
 
                                                             <div class="col">
-                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
-                                                                <select class="form-control" id="validationDefault02" name="defaultBatteryVoltage" required>
-                                                                    @foreach($stations as $station)
-                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="p-2 mt-2">
-                                                            <button class="btn btn-primary" type="submit">Submit form</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button id="editing" class="list-group-item list-group-item-action rounded-bottom" onclick="show_form('editing')">
-                                    Editing
-                                </button>
-                                <div>
-                                    <div id="editing-form" class="form-group card-body p-0" hidden>
-                                        <ul class="list-group">
-                                            <li class="list-group-item w-100 p-0 border-0">
-                                                {{--                        THIS IS THE EDIT STATIONS BUTTON--}}
-                                                <button data-toggle="modal" data-target="#editingStation" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
-                                                    Edit Stations
-                                                </button>
-                                            </li>
-                                            <li class="list-group-item w-100 p-0 border-0">
-                                                {{--                        THIS IS THE EDIT VEHICLES BUTTON--}}
-                                                <button data-toggle="modal" data-target="#editingVehicle" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
-                                                    Edit Vehicles
-                                                </button>
-                                            </li>
-                                            <li class="list-group-item w-100 p-0 border-0">
-                                                {{--                        THIS IS THE EDIT SENSORS BUTTON--}}
-                                                <button data-toggle="modal" data-target="#editingSensor" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
-                                                    Edit Sensors
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS EDIT STATIONS--}}
-                                <div class="modal fade" id="editingStation" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4>Edit Stations</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-
-                                            <div class="modal-body">
-
-                                                    <div id="editStations" class="col border nav-link p-3 transition">
-
-                                                        <form action="{{route('addStations')}}" class="input-group" method="POST">
-                                                            @csrf
-                                                            @method('POST')
-
-                                                            <div class="container justify-content-center">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <label for="stationSelect" class="form-label">Choose station to edit</label>
-
-                                                                        <datalist id="allStations">
-                                                                            @foreach($stations as $station)
-                                                                                <option data-value="{{$station['id']}}">{{$station['name']}}</option>
-                                                                            @endforeach
-                                                                        </datalist>
-                                                                        <input class="form-control" list="allStations" id="stationSelect" pattern="[a-zA-Z]*" name="name" autocomplete="off" required>
-                                                                    </div>
-
-                                                                    <div class="col">
-                                                                        <label for="validationDefault02" class="form-label">City</label>
-                                                                        <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>
-                                                                    </div>
-
-                                                                    <div class="w-100"></div>
-
-                                                                    <div class="col">
-                                                                        <label for="validationDefault02" class="form-label">Address</label>
-                                                                        <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>
-                                                                    </div>
-
-                                                                    <div class="col">
-                                                                        <label for="validationDefault03" class="form-label">Zip code</label>
-                                                                        <input type="text" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="p-2 mt-2">
-                                                                    <button class="btn btn-primary" type="submit">Submit form</button>
-                                                                </div>
-                                                            </div>
-
-                                                        </form>
-
-                                                        {{--<label for="exampleDataList" class="form-label">Choose station to edit</label>
-                                                        <input class="form-control" list="allStations" id="stationSelect">
-                                                        <datalist id="allStations">
-                                                            @foreach($stations as $station)
-                                                                <option data-value="{{$station['id']}}">{{$station['name']}}</option>
-                                                            @endforeach
-                                                        </datalist>
-                                                        <button class="btn btn-primary mt-3">Edit selected</button>
-
-
-                                                        <button type="button" class="btn shadow-none"
-                                                                data-target="#editStations"
-                                                                onclick="show_form('editingStations')">
-                                                            Edit set station
-                                                        </button>
-
-
-                                                    <form action="{{route('editStations')}}" class="form-group card-body p-0" hidden id="editingStations-form" method="POST">
-                                                        @csrf
-                                                        @method('POST')
-
-                                                        <div class="container justify-content-center">
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <label for="validationDefault01" class="form-label">Station name</label>
-                                                                    <input type="text" value="{{ $station['name'] }}" class="form-control" id="validationDefault01" pattern="[a-zA-Z]*" name="name" required>
-                                                                </div>
-
-                                                                <div class="col">
-                                                                    <label for="validationDefault02" class="form-label">City</label>
-                                                                    <input type="text" value="{{ $station['city'] }}" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>
-                                                                </div>
-
-                                                                <div class="w-100"></div>
-
-                                                                <div class="col">
-                                                                    <label for="validationDefault02" class="form-label">Address</label>
-                                                                    <input type="text" value="{{ $station['address'] }}" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>
-                                                                </div>
-
-                                                                <div class="col">
-                                                                    <label for="validationDefault03" class="form-label">Zip code</label>
-                                                                    <input type="text" value="{{ $station['zipCode']  }}" class="form-control" id="validationDefault04" name="zipCode" pattern="^\d{4}\s?\w{2}$" required>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="p-2 mt-2">
-                                                                <button class="btn btn-primary" type="submit">Submit form</button>
-                                                            </div>
-                                                        </div>
-
-                                                    </form>--}}
-                                                    </div>
-
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING TRUCKS VEHICLES--}}
-                                <div class="modal fade" id="editingVehicle" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4>Edit Vehicles</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{route('editVehicles')}}" class="input-group" method="POST">
-                                                    @csrf
-                                                    @method('POST')
-
-                                                    <div class="container justify-content-center">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <label for="validationDefault01" class="form-label">Default voltage</label>
-                                                                <select class="form-control" id="validationDefault01" name="defaultBatteryVoltage" required>
-                                                                    <option value="12">12 Volt</option>
-                                                                    <option value="24">24 Volt</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
-                                                                <select class="form-control" id="validationDefault02" name="stationId" required>
-                                                                    @foreach($stations as $station)
-                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="w-100"></div>
-
-                                                            <div class="col">
-                                                                <label for="validationDefault02" class="form-label">Vehicle number</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" name="vehicleNumber" required>
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <label for="validationDefault03" class="form-label">Vehicle type</label>
-                                                                <select class="form-control" id="validationDefault04" name="vehicleTypeId" required>
-                                                                    @foreach($vehicleTypes as $type)
-                                                                        <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="p-2 mt-2">
-                                                            <button class="btn btn-primary" type="submit">Submit form</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING SENSORS--}}
-                                <div class="modal fade" id="editingSensor" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4>Edit Sensors</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{route('editVehicles')}}" class="input-group" method="POST">
-                                                    @csrf
-                                                    @method('POST')
-
-                                                    <div class="container justify-content-center">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
-                                                                <select class="form-control" id="validationDefault01" name="truckId" required>
-                                                                    @foreach($trucks as $truck)
-                                                                        <option value="{{$truck['id']}}">{{$truck['vehicleNumber']}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <label for="validationDefault02" class="form-label">Vehicles station</label>
-                                                                <select class="form-control" id="validationDefault02" name="defaultBatteryVoltage" required>
-                                                                    @foreach($stations as $station)
-                                                                        <option value="{{$station['id']}}">{{$station['name']}}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <label for="validationDefault02" class="form-label">Dev id</label>
+                                                                <input type="text" class="form-control" id="validationDefault03" name="devId" required>
                                                             </div>
 
                                                         </div>

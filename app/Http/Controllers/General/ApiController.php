@@ -76,7 +76,7 @@ class ApiController extends Controller
 
         $client = new Client();
 
-        $uri = 'http://167.86.94.244:8090/sensors';
+        $uri = 'http://167.86.94.244:8090/arduinos';
         $client->post($uri, [
             'headers' => ['Content-type' => 'application/json'],
             'auth' => [
@@ -84,10 +84,10 @@ class ApiController extends Controller
                 'KULv6qYx9YA8hXfh'
             ],
             'json' => [
-                'name' => $input['name'],
-                'city' => $input['city'],
-                'address' => $input['address'],
-                'zipCode' => $input['zipCode']
+                'devId' => $input['devId'],
+                'resolved' => false,
+                'truck' => ['id' => $input['truckId']],
+                'downLinkUrl' => 'tmp'
             ]
         ]);
         return redirect()->route('home');
@@ -160,7 +160,7 @@ class ApiController extends Controller
         $client->get($uri, [
             'headers' => ['Content-type' => 'application/json'],
             'json' => [
-                'dev_id' => $getArduino['id'],
+                'dev_id' => $getArduino['devId'],
                 'payload_raw' => $input['reset']
             ]
         ]);
