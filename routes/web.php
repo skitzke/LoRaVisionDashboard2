@@ -51,6 +51,8 @@ Route::get('/home/editVehicle', [App\Http\Controllers\General\ApiController::cla
 
 Route::post('/home/deleteVehicle', [App\Http\Controllers\General\ApiController::class, 'deleteVehicle'])->name('deleteVehicle');
 
+Route::get('/admin/stationEdit', [App\Http\Controllers\admin\EditController::class, 'index'])->name('edit_index');
+
 Route::post('/home/resolveAlert', [App\Http\Controllers\General\ApiController::class, 'resolveAlert'])->name('resolve');
 
 Route::post('/home/reset', [App\Http\Controllers\General\ApiController::class, 'restRelay'])->name('reset');
