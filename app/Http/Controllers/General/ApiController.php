@@ -147,6 +147,25 @@ class ApiController extends Controller
 
     }
 
+    public function restRelay(Request $request)
+    {
+        $input = $request::all();
+
+        $getArduino = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/arduinos/' . $input['arduinoId'])->json();
+
+        $client = new Client();
+
+        $uri = $getArduino['downLinkUrl'];
+        $client->get($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'json' => [
+                'dev_id' => $getArduino['id'],
+                'payload_raw' => $input['reset']
+            ]
+        ]);
+    }
+
     public function resolveAlert(Request $request)
     {
         $input = $request::all();

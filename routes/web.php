@@ -53,3 +53,4 @@ Route::post('/home/deleteVehicle', [App\Http\Controllers\General\ApiController::
 
 Route::post('/home/resolveAlert', [App\Http\Controllers\General\ApiController::class, 'resolveAlert'])->name('resolve');
 
+Route::post('/home/reset', [App\Http\Controllers\General\ApiController::class, 'restRelay'])->name('reset');

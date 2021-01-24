@@ -30,7 +30,7 @@
                                                     <th scope="col">Interior temp.</th>
                                                     <th scope="col">Reset communication</th>
                                                     <th scope="col">Reset navigation</th>
-                                                    <th scope="col">Delete vehicle</th>
+                                                    <th scope="col">Reset both</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -49,13 +49,28 @@
                                                         <td>No data</td>
                                                         <td>No data</td>
                                                     @endif
-                                                    <td><button type="button" class="btn btn-outline-primary">Reset</button></td>
-                                                    <td><button type="button" class="btn btn-outline-secondary">Reset</button></td>
                                                     <td>
-                                                        <form action="{{route('deleteVehicle')}}" method="post">
+                                                        <form action="{{route('reset')}}" method="post">
                                                             @csrf
                                                             @method('POST')
-                                                            <button type="submit" class="btn btn-outline-danger" name="truckId" value="{{$truck['id']}}">Delete</button>
+                                                            <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
+                                                            <button type="button" name="reset" value="MQ==" class="btn btn-outline-primary">Reset</button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{route('reset')}}" method="post">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
+                                                            <button type="button" name="reset" value="Mg==" class="btn btn-outline-secondary">Reset</button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{route('reset')}}" method="post">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
+                                                            <button type="submit" name="reset" value="MA==" class="btn btn-outline-danger" name="truckId" value="">Reset</button>
                                                         </form>
                                                     </td>
                                                 </tr>
