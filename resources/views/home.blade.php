@@ -6,7 +6,7 @@
             <div class="col-md-9">
                 <div class="card p-3">
                     <div class="card-header">Dashboard</div>
-                        <div class="card-body row row-cols-lg-2 row-cols-sm-1 scrollbar scrollbar-primary" style="min-height: 55vh">
+                        <div class="card-body row row-cols-lg-2 row-cols-sm-1 row-cols-md-1 scrollbar scrollbar-primary" style="min-height: 55vh">
 {{--                            This foreach checks if every station avaliable on the database is set to per cell so they are uniquely identifiable--}}
                             @php($i = 0)
                             @foreach($stations as $station)
@@ -21,7 +21,7 @@
                                         <h5 class="mt-2 mb-2">{{ $station['city'] }}
                                         {{ $station['address'] }}
                                         {{ $station['zipCode']  }}</h5>
-                                        <table class="table table-responsive-sm">
+                                        <table class="table table-responsive-sm table-responsive-md">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Vehicle number</th>
@@ -87,10 +87,10 @@
                         </div>
                 </div>
             </div>
+            {{--  Start of side manu --}}
             <div class="col-md-3">
                 <div class="card p-3">
-                    {{--          <div class="card-header">{{ __('Dashboard') }}</div>
-                            Alert Log--}}
+                    {{--  Alert log --}}
                     <div class="card-body scrollbar scrollbar-primary">
 {{--                        THIS IS THE ALERT LOG BUTTON--}}
                         <button data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-action rounded-bottom">
@@ -113,6 +113,7 @@
                                                 <th scope="col">Voltage</th>
                                                 <th scope="col">Battery temp.</th>
                                                 <th scope="col">Interior temp.</th>
+                                                <th scope="col">Date</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -123,6 +124,7 @@
                                                     <td>{{$alert['batteryVoltage']}}V</td>
                                                     <td>{{$alert['batteryTemperature']}}&deg;C</td>
                                                     <td>{{$alert['interiorTemperature']}}&deg;C</td>
+                                                    <td>{{gmdate('M/d/Y', $alert['createdAt'])}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -156,6 +158,7 @@
                                                     <th scope="col">Voltage</th>
                                                     <th scope="col">Battery temp.</th>
                                                     <th scope="col">Interior temp.</th>
+                                                    <th scope="col">Date</th>
                                                     <th scope="col">Resolve</th>
                                                 </tr>
                                             </thead>
@@ -171,6 +174,7 @@
                                                     <td>{{$alert['batteryVoltage']}}V</td>
                                                     <td>{{$alert['batteryTemperature']}}&deg;C</td>
                                                     <td>{{$alert['interiorTemperature']}}&deg;C</td>
+                                                    <td>{{gmdate('M/d/Y', $alert['createdAt'])}}</td>
                                                     <td>
                                                         <form action="{{route('resolve')}}" method="POST">
                                                         @csrf
