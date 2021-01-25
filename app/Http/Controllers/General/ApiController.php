@@ -27,19 +27,23 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = 'http://167.86.94.244:8090/stations';
-        $client->post($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'name' => $input['name'],
-                'city' => $input['city'],
-                'address' => $input['address'],
-                'zipCode' => $input['zipCode']
-            ]
-        ]);
+
+        try {
+            $client->post($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'name' => $input['name'],
+                    'city' => $input['city'],
+                    'address' => $input['address'],
+                    'zipCode' => $input['zipCode']
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
 
         return redirect()->route('home');
     }
@@ -52,20 +56,23 @@ class ApiController extends Controller
 
         $uri = 'http://167.86.94.244:8090/trucks';
 
-        $client->post($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'defaultBatteryVoltage' => $input['defaultBatteryVoltage'],
-                'station' => ['id' => $input['stationId']],
-                'truckStatus' => true,
-                'vehicleNumber' => $input['vehicleNumber'],
-                'vehicleType' => ['id' => $input['vehicleTypeId']]
-            ]
-        ]);
+        try {
+            $client->post($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'defaultBatteryVoltage' => $input['defaultBatteryVoltage'],
+                    'station' => ['id' => $input['stationId']],
+                    'truckStatus' => true,
+                    'vehicleNumber' => $input['vehicleNumber'],
+                    'vehicleType' => ['id' => $input['vehicleTypeId']]
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
         return redirect()->route('home');
 
     }
@@ -102,8 +109,11 @@ class ApiController extends Controller
         $input = $request::all();
 
         $uri = 'http://167.86.94.244:8090/trucks/';
-        Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-            'KULv6qYx9YA8hXfh')->delete($uri . $input['truckId']);
+
+        try {
+            Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh')->delete($uri . $input['truckId']);
+        }catch (ServerException $ignore){}
 
         return redirect()->route('edit_index');
     }
@@ -113,42 +123,41 @@ class ApiController extends Controller
         $input = $request::all();
 
         $uri = 'http://167.86.94.244:8090/stations/';
-        Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-            'KULv6qYx9YA8hXfh')->delete($uri . $input['stationId']);
+
+        try {
+            Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh')->delete($uri . $input['stationId']);
+        }catch (ServerException $ignore){}
+
 
         return redirect()->route('edit_index');
-    }
-
-    public function sortupdate(Request $response)
-    {
-        $get_result_arr = json_decode($response->getContent());
-
-        foreach($get_result_arr as $result){
-            $lists = $result->lists;
-        }
     }
 
     public function editStations(Request $request)
     {
         $input = $request::all();
 
-        $client = new Client();
-
         $uri = 'http://167.86.94.244:8090/stations/' . $input['stationId'];
-        $client->put($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'id' => $input['stationId'],
-                'address' => $input['address'],
-                'city' => $input['city'],
-                'name' => $input['name'],
-                'zipCode' => $input['zipCode']
-            ]
-        ]);
+
+        $client = new Client();
+        try {
+
+            $client->put($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'id' => $input['stationId'],
+                    'address' => $input['address'],
+                    'city' => $input['city'],
+                    'name' => $input['name'],
+                    'zipCode' => $input['zipCode']
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
 
         return redirect()->route('edit_index');
     }
@@ -160,21 +169,24 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = 'http://167.86.94.244:8090/trucks/' . $input['submitVehicle'];
-        $client->put($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'id' => $input['submitVehicle'],
-                'station' => ['id' => $input['stationId']],
-                'vehicleType' => ['id' => $input['vehicleTypeId']],
-                'vehicleNumber' => $input['vehicleNumber'],
-                'truckStatus' => $input['truckStatus'],
-                'defaultBatteryVoltage' => $input['defaultBatteryVoltage']
-            ]
-        ]);
+        try {
+            $client->put($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'id' => $input['submitVehicle'],
+                    'station' => ['id' => $input['stationId']],
+                    'vehicleType' => ['id' => $input['vehicleTypeId']],
+                    'vehicleNumber' => $input['vehicleNumber'],
+                    'truckStatus' => $input['truckStatus'],
+                    'defaultBatteryVoltage' => $input['defaultBatteryVoltage']
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
 
         return redirect()->route('edit_index');
     }
@@ -210,17 +222,21 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = 'http://167.86.94.244:8090/vehicleTypes/' . $input['typeId'];
-        $client->put($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'id' => $input['typeId'],
-                'vehicleType' => $input['newTypeName']
-            ]
-        ]);
+
+        try {
+            $client->put($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'id' => $input['typeId'],
+                    'vehicleType' => $input['newTypeName']
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
 
         return redirect()->route('home');
     }
@@ -232,13 +248,17 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = 'http://167.86.94.244:8090/vehicleTypes/' . $input['vehicleTypeId'];
-        $client->delete($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ]
-        ]);
+
+        try {
+            $client->delete($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
 
         return redirect()->route('home');
     }
@@ -247,19 +267,24 @@ class ApiController extends Controller
     {
         $input = $request::all();
 
-        $getArduino = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/arduinos/' . $input['arduinoId'])->json();
+        try {
+            $getArduino = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/arduinos/' . $input['arduinoId'])->json();
+        }catch (ServerException $ignore){}
 
         $client = new Client();
 
         $uri = $getArduino['downLinkUrl'];
-        $client->post($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'json' => [
-                'dev_id' => strtolower($getArduino['devId']),
-                'payload_raw' => $input['reset']
-            ]
-        ]);
+
+        try {
+            $client->post($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'json' => [
+                    'dev_id' => strtolower($getArduino['devId']),
+                    'payload_raw' => $input['reset']
+                ]
+            ]);
+        }catch (ServerException $ignore){}
 
         return redirect()->route('home');
     }
@@ -271,19 +296,22 @@ class ApiController extends Controller
         $client = new Client();
 
         $uri = 'http://167.86.94.244:8090/arduinos/' . $input['resolve'];
-        $client->put($uri, [
-            'headers' => ['Content-type' => 'application/json'],
-            'auth' => [
-                'qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh'
-            ],
-            'json' => [
-                'id' => $input['id'],
-                'devId' => $input['devId'],
-                'resolved' => true,
-                'truck' => ['id' => $input['truckId']]
-            ]
-        ]);
+
+        try {
+            $client->put($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'id' => $input['id'],
+                    'devId' => $input['devId'],
+                    'resolved' => true,
+                    'truck' => ['id' => $input['truckId']]
+                ]
+            ]);
+        }catch (ServerException $ignore){}
 
         return redirect()->route('home');
     }
