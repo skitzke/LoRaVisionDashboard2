@@ -153,14 +153,30 @@ class ApiController extends Controller
         return redirect()->route('edit_index');
     }
 
-    public function editVehicles()
+    public function editVehicles(Request $request)
     {
+        $input = $request::all();
 
-    }
+        $client = new Client();
 
-    public function editSensors()
-    {
+        $uri = 'http://167.86.94.244:8090/trucks/' . $input['submitVehicle'];
+        $client->put($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'auth' => [
+                'qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh'
+            ],
+            'json' => [
+                'id' => $input['submitVehicle'],
+                'station' => ['id' => $input['stationId']],
+                'vehicleType' => ['id' => $input['vehicleTypeId']],
+                'vehicleNumber' => $input['vehicleNumber'],
+                'truckStatus' => $input['truckStatus'],
+                'defaultBatteryVoltage' => $input['defaultBatteryVoltage']
+            ]
+        ]);
 
+        return redirect()->route('edit_index');
     }
 
     public function addVehicleType(Request $request)
