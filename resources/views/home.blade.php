@@ -218,6 +218,26 @@
                                                     Add Sensors
                                                 </button>
                                             </li>
+                                            <hr>
+                                            {{--                        THIS IS THE VEHICLE TYPE SECTION--}}
+                                            {{--                        THIS IS THE ADDING VEHICLE TYPE BUTTON--}}
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                <button data-toggle="modal" data-target="#addingVehicleTypes" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Add vehicle type
+                                                </button>
+                                            </li>
+                                            {{--                        THIS IS THE EDITING SENSORS BUTTON--}}
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                <button data-toggle="modal" data-target="#editingVehicleTypes" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Edit vehicle type
+                                                </button>
+                                            </li>
+                                            {{--                        THIS IS THE DELETING SENSORS BUTTON--}}
+                                            <li class="list-group-item w-100 p-0 border-0">
+                                                <button data-toggle="modal" data-target="#deletingVehicleType" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                    Delete vehicle type
+                                                </button>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -353,7 +373,6 @@
                                                 <form action="{{route('addSensors')}}" class="input-group" method="POST">
                                                     @csrf
                                                     @method('POST')
-
                                                     <div class="container justify-content-center">
                                                         <div class="row">
                                                             <div class="col">
@@ -377,8 +396,136 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS ADDING VEHICLE TYPES--}}
+                                <div class="modal fade" id="addingVehicleTypes" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Add vehicle types</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{route('addVehicleType')}}" class="input-group" method="POST">
+                                                    @csrf
+                                                    @method('POST')
 
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">New vehicle type</label>
+                                                                <input type="text" class="form-control" id="validationDefault01" name="vehicleType" required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="p-2 mt-2">
+                                                            <button class="btn btn-primary" type="submit">Add new type</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS EDITING VEHICLE TYPES--}}
+                                <div class="modal fade" id="editingVehicleTypes" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Edit vehicle type</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{route('editVehicleType')}}" class="input-group" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+
+                                                    <div class="container justify-content-center">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="validationDefault01" class="form-label">Type to be edited</label>
+                                                                <select class="form-control" id="validationDefault01" name="typeId" required>
+                                                                    @foreach($vehicleTypes as $type)
+                                                                        <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <label for="validationDefault02" class="form-label">New name</label>
+                                                                <input type="text" class="form-control" id="validationDefault02" name="newTypeName">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col m-2 p-2">
+                                                                <button class="btn btn-primary" type="submit" name="update" value="update">Update name</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--                        THIS IS THE POP-UP WHEN YOU PRESS DELETE VEHICLE TYPES--}}
+                                <div class="modal fade" id="deletingVehicleType" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Delete vehicle type</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{route('deleteVehicleType')}}" method="post">
+                                                     @csrf
+                                                     @method('POST')
+                                                     Please select the vehicle type to be deleted here.
+                                                     <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
+                                                     <select class="form-control" id="validationDefault01" name="vehicleTypeId" required>
+                                                         @foreach($vehicleTypes as $type)
+                                                             <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
+                                                         @endforeach
+                                                     </select>
+                                                     <button type="button" data-toggle="modal" data-target="#deleteNotice" class="btn btn-primary float-left mt-2">
+                                                         Delete
+                                                     </button>
+                                                    <div class="modal fade" id="deleteNotice" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4>Delete notice</h4>
+                                                                    <button type="button" class="close rounded-0" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Do you really want to permanently delete this vehicle type? <br>
+                                                                        (This will delete the trucks and their corresponding sensors associated with the Vehicle type!)</p>
+                                                                    <button type="submit" class="btn btn-danger float-left rounded-0">
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

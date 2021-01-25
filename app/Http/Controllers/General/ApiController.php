@@ -163,6 +163,70 @@ class ApiController extends Controller
 
     }
 
+    public function addVehicleType(Request $request)
+    {
+        $input = $request::all();
+
+        $client = new Client();
+
+        $uri = 'http://167.86.94.244:8090/vehicleTypes';
+        try {
+            $client->post($uri, [
+                'headers' => ['Content-type' => 'application/json'],
+                'auth' => [
+                    'qwCPqW2k9JaYeFXn',
+                    'KULv6qYx9YA8hXfh'
+                ],
+                'json' => [
+                    'vehicleType' => $input['vehicleType']
+                ]
+            ]);
+        }catch (ServerException $ignore){}
+
+
+        return redirect()->route('home');
+    }
+
+    public function editVehicleType(Request $request)
+    {
+        $input = $request::all();
+
+        $client = new Client();
+
+        $uri = 'http://167.86.94.244:8090/vehicleTypes/' . $input['typeId'];
+        $client->put($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'auth' => [
+                'qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh'
+            ],
+            'json' => [
+                'id' => $input['typeId'],
+                'vehicleType' => $input['newTypeName']
+            ]
+        ]);
+
+        return redirect()->route('home');
+    }
+
+    public function deleteVehicleType(Request $request)
+    {
+        $input = $request::all();
+
+        $client = new Client();
+
+        $uri = 'http://167.86.94.244:8090/vehicleTypes/' . $input['vehicleTypeId'];
+        $client->delete($uri, [
+            'headers' => ['Content-type' => 'application/json'],
+            'auth' => [
+                'qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh'
+            ]
+        ]);
+
+        return redirect()->route('home');
+    }
+
     public function restRelay(Request $request)
     {
         $input = $request::all();

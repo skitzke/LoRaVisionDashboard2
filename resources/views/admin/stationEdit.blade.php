@@ -320,14 +320,10 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <p>Do you really want to permanently
-                                                                                    delete this
-                                                                                    truck ({{$truck ['vehicleNumber']}}
-                                                                                    )? <br>(This will delete the sensors
-                                                                                    associated to the truck)</p>
-                                                                                <form
-                                                                                    action="{{route('deleteVehicle')}}"
-                                                                                    method="post">
+                                                                                <p>Do you really want to permanently delete this
+                                                                                    truck ({{$truck ['vehicleNumber']}})? <br>
+                                                                                    (This will delete the sensors associated to the truck)</p>
+                                                                                <form action="{{route('deleteVehicle')}}" method="post">
                                                                                     @csrf
                                                                                     @method('POST')
                                                                                     <button type="submit" name="truckId"
