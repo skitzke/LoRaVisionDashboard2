@@ -5,8 +5,8 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="card p-3">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-                        <div class="card-body row row-cols-2 scrollbar scrollbar-primary">
+                    <div class="card-header">Dashboard</div>
+                        <div class="card-body row row-cols-2 scrollbar scrollbar-primary" style="min-height: 55vh">
 {{--                            This foreach checks if every station avaliable on the database is set to per cell so they are uniquely identifiable--}}
                             @php($i = 0)
                             @foreach($stations as $station)
@@ -14,13 +14,13 @@
                                 {{--add if to check if station is active--}}
                                 <div id="station{{ $i }}" class="col border nav-link p-5 transition">
                                     <button type="button" class="btn w-100 shadow-none" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
-                                        {{ $station['name'] }}
+                                        <h5><b>{{ $station['name'] }}</b></h5>
                                     </button>
 
                                     <div id="divContents{{ $i }}" class="openCloseContents transition">
-                                        {{ $station['city'] }}
+                                        <h5 class="mt-2 mb-2">{{ $station['city'] }}
                                         {{ $station['address'] }}
-                                        {{ $station['zipCode']  }}
+                                        {{ $station['zipCode']  }}</h5>
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -36,7 +36,8 @@
                                             </thead>
                                             <tbody>
                                             @foreach($station['trucks'] as $truck)
-                                                {{--add if to check if trucks are present--}}
+                                                {{--if to check if trucks are present--}}
+                                                @if($truck['truckStatus'])
                                                 <tr>
                                                     <td>{{$truck['vehicleNumber']}}</td>
                                                     <td>{{$truck['defaultBatteryVoltage']}}</td>
@@ -76,6 +77,7 @@
                                                     </td>
                                                 </tr>
 
+                                                @endif
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -134,7 +136,7 @@
                         </div>
                         {{--                        THIS IS THE CURRENT ALERT BUTTON--}}
                         <button data-toggle="modal" data-target="#currentAlerts" class="list-group-item list-group-item-action rounded-bottom">
-                            Current Alerts
+                            Current Alerts @if($cAlerts != null) &#128308; @endif
                         </button>
                         {{--                        THIS IS THE POP-UP WHEN YOU PRESS CURRENT ALERT--}}
                         <div class="modal fade" id="currentAlerts" aria-hidden="true">
@@ -145,6 +147,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="modal-body scrollbar scrollbar-primary" style="overflow-y: auto">
+                                        @if($cAlerts != null)
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -158,7 +161,6 @@
                                             </thead>
                                             <tbody>
                                             @foreach($cAlerts as $alert)
-                                               @if($cAlerts)
                                                 <tr>
                                                     <td>
                                                         {{$alert['arduino']['truck']['station']['city']}}&nbsp;
@@ -180,10 +182,12 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                               @endif
                                             @endforeach
                                             </tbody>
                                         </table>
+                                        @else
+                                            There are no current alerts
+                                        @endif
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -202,19 +206,19 @@
                                         <ul class="list-group">
                                             <li class="list-group-item w-100 p-0 border-0">
                                                 {{--                        THIS IS THE ADDING STATIONS BUTTON--}}
-                                                <button data-toggle="modal" data-target="#addingStation" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                <button data-toggle="modal" data-target="#addingStation" class="list-group-item list-group-item-action rounded btn" style="background-color: #E8E8E8;">
                                                     Add Stations
                                                 </button>
                                             </li>
                                             <li class="list-group-item w-100 p-0 border-0">
                                                 {{--                        THIS IS THE ADDING VEHICLES BUTTON--}}
-                                                <button data-toggle="modal" data-target="#addingVehicle" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                <button data-toggle="modal" data-target="#addingVehicle" class="list-group-item list-group-item-action rounded btn" style="background-color: #E8E8E8;">
                                                     Add Vehicles
                                                 </button>
                                             </li>
                                             <li class="list-group-item w-100 p-0 border-0">
                                                 {{--                        THIS IS THE ADDING SENSORS BUTTON--}}
-                                                <button data-toggle="modal" data-target="#addingSensor" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                <button data-toggle="modal" data-target="#addingSensor" class="list-group-item list-group-item-action rounded btn" style="background-color: #E8E8E8;">
                                                     Add Sensors
                                                 </button>
                                             </li>
@@ -222,19 +226,19 @@
                                             {{--                        THIS IS THE VEHICLE TYPE SECTION--}}
                                             {{--                        THIS IS THE ADDING VEHICLE TYPE BUTTON--}}
                                             <li class="list-group-item w-100 p-0 border-0">
-                                                <button data-toggle="modal" data-target="#addingVehicleTypes" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                <button data-toggle="modal" data-target="#addingVehicleTypes" class="list-group-item list-group-item-action rounded btn" style="background-color: #E8E8E8;">
                                                     Add vehicle type
                                                 </button>
                                             </li>
                                             {{--                        THIS IS THE EDITING SENSORS BUTTON--}}
                                             <li class="list-group-item w-100 p-0 border-0">
-                                                <button data-toggle="modal" data-target="#editingVehicleTypes" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                <button data-toggle="modal" data-target="#editingVehicleTypes" class="list-group-item list-group-item-action rounded btn" style="background-color: #E8E8E8;">
                                                     Edit vehicle type
                                                 </button>
                                             </li>
                                             {{--                        THIS IS THE DELETING SENSORS BUTTON--}}
                                             <li class="list-group-item w-100 p-0 border-0">
-                                                <button data-toggle="modal" data-target="#deletingVehicleType" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                <button data-toggle="modal" data-target="#deletingVehicleType" class="list-group-item list-group-item-action rounded btn" style="background-color: #E8E8E8;">
                                                     Delete vehicle type
                                                 </button>
                                             </li>
