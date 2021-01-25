@@ -30,7 +30,7 @@
                                             {{--       Edit button on user management        --}}
                                             @if($logUser != $user && !$user -> hasRole('owner'))
                                                 @can('ownerRights')
-                                                    <button data-toggle="modal" data-target="#editModal{{$user -> id}}" class="btn btn-primary float-left">
+                                                    <button data-toggle="modal" data-target="#editModal{{$user -> id}}" class="btn btn-primary float-left shadow-none">
                                                         Edit
                                                     </button>
                                                 @endcan
