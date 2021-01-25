@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">Stations</div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-sm">
                             <thead>
                             <tr>
                                 <th scope="col">Station Name</th>
@@ -125,7 +125,7 @@
                                                 No registered trucks in this station!
                                             </div>
                                         @else
-                                            <table class="table table-striped">
+                                            <table class="table table-striped table-responsive-sm">
                                                 <thead class="w-auto">
                                                 <tr class="bg-primary">
                                                     <th>Truck Number</th>

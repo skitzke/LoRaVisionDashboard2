@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-header">Users</div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-sm">
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>

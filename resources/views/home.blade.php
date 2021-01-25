@@ -6,13 +6,13 @@
             <div class="col-md-9">
                 <div class="card p-3">
                     <div class="card-header">Dashboard</div>
-                        <div class="card-body row row-cols-2 scrollbar scrollbar-primary" style="min-height: 55vh">
+                        <div class="card-body row row-cols-lg-2 row-cols-sm-1 scrollbar scrollbar-primary" style="min-height: 55vh">
 {{--                            This foreach checks if every station avaliable on the database is set to per cell so they are uniquely identifiable--}}
                             @php($i = 0)
                             @foreach($stations as $station)
                                 @php(++$i)
                                 {{--add if to check if station is active--}}
-                                <div id="station{{ $i }}" class="col border nav-link p-5 transition">
+                                <div id="station{{ $i }}" class="col border nav-link p-lg-5 transition">
                                     <button type="button" class="btn w-100 shadow-none" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
                                         <h5><b>{{ $station['name'] }}</b></h5>
                                     </button>
@@ -21,7 +21,7 @@
                                         <h5 class="mt-2 mb-2">{{ $station['city'] }}
                                         {{ $station['address'] }}
                                         {{ $station['zipCode']  }}</h5>
-                                        <table class="table">
+                                        <table class="table table-responsive-sm">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Vehicle number</th>
@@ -380,12 +380,16 @@
                                                     <div class="container justify-content-center">
                                                         <div class="row">
                                                             <div class="col">
-                                                                <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
-                                                                <select class="form-control" id="validationDefault01" name="truckId" required>
-                                                                    @foreach($trucks as $truck)
-                                                                        <option value="{{$truck['id']}}">{{$truck['vehicleNumber']}}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <div class="row">
+                                                                    <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <select class="form-control" id="validationDefault01" name="truckId" required>
+                                                                        @foreach($trucks as $truck)
+                                                                            <option value="{{$truck['id']}}">{{$truck['vehicleNumber']}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                             </div>
 
                                                             <div class="col">
