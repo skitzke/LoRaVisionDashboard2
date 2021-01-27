@@ -47,7 +47,7 @@
                                                 Update Password
                                             </button>
                                         </li>
-                                        @can(!'ownerRights')
+                                        @can('userRights')
                                             <li class="list-group-item w-100 p-0 border-0 m-2">
                                                 {{--                        THIS IS THE DeleteAccount BUTTON--}}
                                                 <button data-toggle="modal" data-target="#deleteAccount" class="list-group-item list-group-item-action rounded btn btn-outline-secondary text-danger">
