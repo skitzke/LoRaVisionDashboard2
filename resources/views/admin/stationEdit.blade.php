@@ -53,19 +53,19 @@
                                                                             <label for="validationDefault01" class="form-label">
                                                                                 Station name
                                                                             </label>
-                                                                            <input type="text" class="form-control" id="validationDefault01" value="{{$station['name']}}" placeholder="{{$station['name']}}" pattern="[a-zA-Z]*" name="name">
+                                                                            <input type="text" class="form-control" id="validationDefault01" value="{{$station['name']}}" placeholder="{{$station['name']}}" pattern="[a-zA-Z\s]*$" name="name">
                                                                         </div>
 
                                                                         <div class="col">
                                                                             <label for="validationDefault02" class="form-label">City</label>
-                                                                            <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" value="{{$station['city']}}" placeholder="{{$station['city']}}" name="city">
+                                                                            <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z\s]*$" value="{{$station['city']}}" placeholder="{{$station['city']}}" name="city">
                                                                         </div>
 
                                                                         <div class="w-100"></div>
 
                                                                         <div class="col">
                                                                             <label for="validationDefault02" class="form-label">Address</label>
-                                                                            <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" value="{{$station['address']}}" placeholder="{{$station['address']}}" name="address">
+                                                                            <input type="text" class="form-control" id="validationDefault03" pattern="^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$" value="{{$station['address']}}" placeholder="{{$station['address']}}" name="address">
                                                                         </div>
 
                                                                         <div class="col">
@@ -189,9 +189,9 @@
                                                                                                 <div class="col">
                                                                                                     <label for="validationDefault04" class="form-label">Vehicle type</label>
                                                                                                     <select class="form-control" id="validationDefault04" name="vehicleTypeId" required>
-                                                                                                        @foreach($trucks as $truck1)
+                                                                                                        @foreach($vehicleType as $type)
                                                                                                             <option
-                                                                                                                value="{{$truck1['vehicleType']['id']}}">{{$truck1['vehicleType']['vehicleType']}}
+                                                                                                                value="{{$type['id']}}">{{$type['vehicleType']}}
                                                                                                             </option>
                                                                                                         @endforeach
                                                                                                     </select>

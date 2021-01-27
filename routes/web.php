@@ -19,6 +19,14 @@ Route::get('/', function () {
 
 Auth::routes(['verify'=>true]);
 
+Route::get('/', function () {
+    if(Auth::check()) {
+        return redirect()->route('home');
+    }
+    return view('auth/login');
+})->name('home');
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); //->middleware('verified');
 
 Route::resource('/admin/users', 'App\Http\Controllers\Admin\UsersController', ['except' => ['create', 'store', 'show']]);
@@ -53,7 +61,7 @@ Route::post('/home/deleteVehicle', [App\Http\Controllers\General\ApiController::
 
 Route::post('/home/deleteStation', [App\Http\Controllers\General\ApiController::class, 'deleteStation'])->name('deleteStation');
 
-Route::get('/admin/stationEdit', [App\Http\Controllers\admin\EditController::class, 'index'])->name('edit_index');
+Route::get('/admin/stationEdit', [App\Http\Controllers\Admin\EditController::class, 'index'])->name('edit_index');
 
 Route::post('/home/resolveAlert', [App\Http\Controllers\General\ApiController::class, 'resolveAlert'])->name('resolve');
 

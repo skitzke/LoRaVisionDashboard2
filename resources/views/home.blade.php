@@ -1,45 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-9">
-                <div class="card p-3">
+            <div class="col-md-8">
+                <div class="card p-3 mb-2">
                     <div class="card-header">Dashboard</div>
-                        <div class="card-body row row-cols-lg-2 row-cols-sm-1 row-cols-md-1 scrollbar scrollbar-primary" style="min-height: 55vh">
-{{--                            This foreach checks if every station avaliable on the database is set to per cell so they are uniquely identifiable--}}
-                            @php($i = 0)
-                            @foreach($stations as $station)
-                                @php(++$i)
-                                {{--add if to check if station is active--}}
-                                <div id="station{{ $i }}" class="col border nav-link p-lg-5 transition">
-                                    <button type="button" class="btn w-100 shadow-none" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
-                                        <h5><b>{{ $station['name'] }}</b></h5>
-                                    </button>
+                    <div class="card-body row row-cols-lg-2 row-cols-sm-1 scrollbar scrollbar-primary" style="min-height: 55vh">
+                        {{--                            This foreach checks if every station avaliable on the database is set to per cell so they are uniquely identifiable--}}
+                        @php($i = 0)
+                        @foreach($stations as $station)
+                            @php(++$i)
+                            {{--add if to check if station is active--}}
+                            @php($hasAlert = false)
+                            @foreach($station['trucks'] as $truck)
+                                @foreach($cAlerts as $alert)
+                                    @if($truck['vehicleNumber'] == $alert['arduino']['truck']['vehicleNumber'])
+                                        @php($hasAlert = true)
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div id="station{{ $i }}" class="col border nav-link p-lg-5 transition">
+                                <button type="button" class="btn w-100 shadow-none" data-target="#station{{ $i }}" onclick="show_station_data({{ $i }})">
+                                    <h5><b>{{ $station['name'] }} @if($hasAlert) &#128308; @endif</b></h5>
+                                </button>
 
-                                    <div id="divContents{{ $i }}" class="openCloseContents transition">
-                                        <h5 class="mt-2 mb-2">{{ $station['city'] }}
+                                <div id="divContents{{ $i }}" class="openCloseContents transition">
+                                    <h5 class="mt-2 mb-2">{{ $station['city'] }}
                                         {{ $station['address'] }}
                                         {{ $station['zipCode']  }}</h5>
-                                        <table class="table table-responsive-sm table-responsive-md">
-                                            <thead>
+                                    <table class="table table-responsive-sm">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Vehicle number</th>
+                                            <th scope="col">Default voltage</th>
+                                            <th scope="col">Current voltage</th>
+                                            <th scope="col">Battery temp.</th>
+                                            <th scope="col">Interior temp.</th>
+                                            <th scope="col">Reset communication</th>
+                                            <th scope="col">Reset navigation</th>
+                                            <th scope="col">Reset both</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($station['trucks'] as $truck)
+                                            {{--if to check if trucks are present--}}
+                                            @php($alertVehicle = false)
+                                            @foreach($cAlerts as $alert)
+                                                @if($alert['arduino']['truck']['vehicleNumber'] == $truck['vehicleNumber'])
+                                                    @php($alertVehicle = true)
+                                                @endif
+                                            @endforeach
+
+                                            @if($truck['truckStatus'])
                                                 <tr>
-                                                    <th scope="col">Vehicle number</th>
-                                                    <th scope="col">Default voltage</th>
-                                                    <th scope="col">Current voltage</th>
-                                                    <th scope="col">Battery temp.</th>
-                                                    <th scope="col">Interior temp.</th>
-                                                    <th scope="col">Reset communication</th>
-                                                    <th scope="col">Reset navigation</th>
-                                                    <th scope="col">Reset both</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($station['trucks'] as $truck)
-                                                {{--if to check if trucks are present--}}
-                                                @if($truck['truckStatus'])
-                                                <tr>
-                                                    <td>{{$truck['vehicleNumber']}}</td>
+                                                    <td>{{$truck['vehicleNumber']}}@if($alertVehicle) &#128308; @endif</td>
                                                     <td>{{$truck['defaultBatteryVoltage']}}</td>
 
                                                     @if($truck['arduino'] != null && count($truck['arduino']['readings']) > 0)
@@ -51,54 +66,59 @@
                                                         <td>No readings</td>
                                                         <td>No readings</td>
                                                     @endif
-                                                    <td>
-                                                        <form action="{{route('reset')}}" method="post">
-                                                            @csrf
-                                                            @method('POST')
-                                                            <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
-                                                            <button type="submit" name="reset" value="MQ==" class="btn btn-outline-primary">Reset</button>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form action="{{route('reset')}}" method="post">
-                                                            @csrf
-                                                            @method('POST')
-                                                            <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
-                                                            <button type="submit" name="reset" value="Mg==" class="btn btn-outline-secondary">Reset</button>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form action="{{route('reset')}}" method="post">
-                                                            @csrf
-                                                            @method('POST')
-                                                            <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
-                                                            <button type="submit" name="reset" value="MA==" class="btn btn-outline-danger" name="truckId" value="">Reset</button>
-                                                        </form>
-                                                    </td>
+                                                    @if($truck['arduino'] != null)
+                                                        <td>
+                                                            <form action="{{route('reset')}}" method="post">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
+                                                                <button type="submit" name="reset" value="MQ==" class="btn btn-outline-primary">Reset</button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <form action="{{route('reset')}}" method="post">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
+                                                                <button type="submit" name="reset" value="Mg==" class="btn btn-outline-secondary">Reset</button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <form action="{{route('reset')}}" method="post">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <input type="hidden" name="arduinoId" value="{{$truck['arduino']['id']}}">
+                                                                <button type="submit" name="reset" value="MA==" class="btn btn-outline-danger" name="truckId" value="">Reset</button>
+                                                            </form>
+                                                        </td>
+                                                    @else
+                                                        <td>No Sensor connected</td>
+                                                        <td>No Sensor connected</td>
+                                                        <td>No Sensor connected</td>
+                                                    @endif
                                                 </tr>
-
-                                                @endif
-                                            @endforeach
+                                            @endif
+                                        @endforeach
                                         </tbody>
                                     </table>
-                                    </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-            {{--  Start of side manu --}}
             <div class="col-md-3">
                 <div class="card p-3">
-                    {{--  Alert log --}}
+                    {{--          <div class="card-header">{{ __('Dashboard') }}</div>
+                            Alert Log--}}
                     <div class="card-body scrollbar scrollbar-primary">
-{{--                        THIS IS THE ALERT LOG BUTTON--}}
+                        {{--                        THIS IS THE ALERT LOG BUTTON--}}
                         <button data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-action rounded-bottom">
                             Alert log
                         </button>
-{{--                        THIS IS THE POP-UP WHEN YOU PRESS ALERT LOG--}}
+                        {{--                        THIS IS THE POP-UP WHEN YOU PRESS ALERT LOG--}}
                         <div class="modal fade" id="myModal" aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content" style="max-height: 75vh">
                                     <div class="modal-header">
                                         <h4>Alert Log</h4>
@@ -124,7 +144,7 @@
                                                     <td>{{$alert['batteryVoltage']}}V</td>
                                                     <td>{{$alert['batteryTemperature']}}&deg;C</td>
                                                     <td>{{$alert['interiorTemperature']}}&deg;C</td>
-                                                    <td>{{gmdate('M/d/Y', $alert['createdAt'])}}</td>
+                                                    <td>{{date("d-m-Y H:i:s", substr($alert['createdAt'], 0, 10))}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -142,7 +162,7 @@
                         </button>
                         {{--                        THIS IS THE POP-UP WHEN YOU PRESS CURRENT ALERT--}}
                         <div class="modal fade" id="currentAlerts" aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content" style="max-height: 75vh">
                                     <div class="modal-header">
                                         <h4>Current Alerts</h4>
@@ -150,8 +170,8 @@
                                     </div>
                                     <div class="modal-body scrollbar scrollbar-primary" style="overflow-y: auto">
                                         @if($cAlerts != null)
-                                        <table class="table">
-                                            <thead>
+                                            <table class="table">
+                                                <thead>
                                                 <tr>
                                                     <th scope="col">Location</th>
                                                     <th scope="col">Vehicle</th>
@@ -161,34 +181,34 @@
                                                     <th scope="col">Date</th>
                                                     <th scope="col">Resolve</th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($cAlerts as $alert)
-                                                <tr>
-                                                    <td>
-                                                        {{$alert['arduino']['truck']['station']['city']}}&nbsp;
-                                                        {{$alert['arduino']['truck']['station']['address']}}&nbsp;
-                                                        {{$alert['arduino']['truck']['station']['zipCode']}}
-                                                    </td>
-                                                    <td>{{$alert['arduino']['truck']['vehicleNumber']}}</td>
-                                                    <td>{{$alert['batteryVoltage']}}V</td>
-                                                    <td>{{$alert['batteryTemperature']}}&deg;C</td>
-                                                    <td>{{$alert['interiorTemperature']}}&deg;C</td>
-                                                    <td>{{gmdate('M/d/Y', $alert['createdAt'])}}</td>
-                                                    <td>
-                                                        <form action="{{route('resolve')}}" method="POST">
-                                                        @csrf
-                                                        @method('POST')
-                                                            <input type="hidden" name="id" value="{{$alert['arduino']['id']}}">
-                                                            <input type="hidden" name="devId" value="{{$alert['arduino']['devId']}}">
-                                                            <input type="hidden" name="truckId" value="{{$alert['arduino']['truck']['id']}}">
-                                                            <button type="submit" name="resolve" value="{{$alert['arduino']['id']}}" class="btn btn-primary float-left">Resolve</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($cAlerts as $alert)
+                                                    <tr>
+                                                        <td>
+                                                            {{$alert['arduino']['truck']['station']['city']}}&nbsp;
+                                                            {{$alert['arduino']['truck']['station']['address']}}&nbsp;
+                                                            {{$alert['arduino']['truck']['station']['zipCode']}}
+                                                        </td>
+                                                        <td>{{$alert['arduino']['truck']['vehicleNumber']}}</td>
+                                                        <td>{{$alert['batteryVoltage']}}V</td>
+                                                        <td>{{$alert['batteryTemperature']}}&deg;C</td>
+                                                        <td>{{$alert['interiorTemperature']}}&deg;C</td>
+                                                        <td>{{date("d-m-Y H:i:s", substr($alert['createdAt'], 0, 10))}}</td>
+                                                        <td>
+                                                            <form action="{{route('resolve')}}" method="POST">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <input type="hidden" name="id" value="{{$alert['arduino']['id']}}">
+                                                                <input type="hidden" name="devId" value="{{$alert['arduino']['devId']}}">
+                                                                <input type="hidden" name="truckId" value="{{$alert['arduino']['truck']['id']}}">
+                                                                <button type="submit" name="resolve" value="{{$alert['arduino']['id']}}" class="btn btn-primary float-left">Resolve</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
                                         @else
                                             There are no current alerts
                                         @endif
@@ -269,19 +289,19 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <label for="validationDefault01" class="form-label">Station name</label>
-                                                                <input type="text" class="form-control" id="validationDefault01" pattern="[a-zA-Z]*" name="name" required>
+                                                                <input type="text" class="form-control" id="validationDefault01" pattern="[a-zA-Z\s]*$" name="name" required>
                                                             </div>
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">City</label>
-                                                                <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z]*" name="city" required>
+                                                                <input type="text" class="form-control" id="validationDefault02" pattern="[a-zA-Z\s]*$" name="city" required>
                                                             </div>
 
                                                             <div class="w-100"></div>
 
                                                             <div class="col">
                                                                 <label for="validationDefault02" class="form-label">Address</label>
-                                                                <input type="text" class="form-control" id="validationDefault03" pattern="[a-zA-Z]*" name="address" required>
+                                                                <input type="text" class="form-control" id="validationDefault03" pattern="^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$" name="address" required>
                                                             </div>
 
                                                             <div class="col">
@@ -433,7 +453,7 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <label for="validationDefault01" class="form-label">New vehicle type</label>
-                                                                <input type="text" class="form-control" id="validationDefault01" name="vehicleType" required>
+                                                                <input type="text" class="form-control" id="validationDefault01" maxlength="2" name="vehicleType" required>
                                                             </div>
                                                         </div>
 
@@ -505,18 +525,18 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{route('deleteVehicleType')}}" method="post">
-                                                     @csrf
-                                                     @method('POST')
-                                                     Please select the vehicle type to be deleted here.
-                                                     <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
-                                                     <select class="form-control" id="validationDefault01" name="vehicleTypeId" required>
-                                                         @foreach($vehicleTypes as $type)
-                                                             <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
-                                                         @endforeach
-                                                     </select>
-                                                     <button type="button" data-toggle="modal" data-target="#deleteNotice" class="btn btn-primary float-left mt-2">
-                                                         Delete
-                                                     </button>
+                                                    @csrf
+                                                    @method('POST')
+                                                    Please select the vehicle type to be deleted here.
+                                                    <label for="validationDefault01" class="form-label">Vehicle to add sensor to</label>
+                                                    <select class="form-control" id="validationDefault01" name="vehicleTypeId" required>
+                                                        @foreach($vehicleTypes as $type)
+                                                            <option value="{{$type['id']}}">{{$type['vehicleType']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <button type="button" data-toggle="modal" data-target="#deleteNotice" class="btn btn-primary float-left mt-2">
+                                                        Delete
+                                                    </button>
                                                     <div class="modal fade" id="deleteNotice" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">

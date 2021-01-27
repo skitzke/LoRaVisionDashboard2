@@ -22,8 +22,10 @@ class EditController extends Controller
                 'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/trucks')->json();
             $arduinos = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
                 'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/arduinos')->json();
+            $vehicleType = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/vehicleTypes')->json();
             $i=1;
-            return view ("admin.stationEdit" , ["stations" => $stations , "trucks" => $trucks , "arduinos" => $arduinos ,"i" => $i]);
+            return view ("admin.stationEdit" , ["stations" => $stations , "trucks" => $trucks , "arduinos" => $arduinos ,"i" => $i, "vehicleType" => $vehicleType]);
         } else {
             return redirect()->route('home');
         }

@@ -18,72 +18,72 @@
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
-                                <tbody>
-                                {{--     Foreach loop for displaying all users in DB            --}}
-                                @foreach($users as $user)
-                                    <tr>
-                                        <th scope="row">{{ $user -> id}}</th>
-                                        <td>{{ $user -> name}}</td>
-                                        <td>{{ $user -> email}}</td>
-                                        <td>{{ implode(', ', $user -> roles() -> get() -> pluck('name') -> toArray()) }}</td>
-                                        <td>
-                                            {{--       Edit button on user management        --}}
-                                            @if($logUser != $user && !$user -> hasRole('owner'))
-                                                @can('ownerRights')
-                                                    <button data-toggle="modal" data-target="#editModal{{$user -> id}}" class="btn btn-primary float-left shadow-none">
-                                                        Edit
-                                                    </button>
-                                                @endcan
-                                            @endif
-                                            <div class="modal fade" id="editModal{{$user -> id}}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4>Edit</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form action="{{route('users.update', $user)}}" method="POST">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                @foreach($roles as $role)
-                                                                    <div class="form-check">
-                                                                        @if($role -> name != 'owner')
-                                                                            @if($user -> hasRole('User') && $role -> id == 1)
-                                                                                <input type="radio" name="roles[]" value="{{ $role -> id }}" checked>
-                                                                                <label>{{ $role -> name }}</label>
-                                                                            @elseif($user -> hasRole('Admin') && $role -> id == 2)
-                                                                                <input type="radio" name="roles[]" value="{{ $role -> id }}" checked>
-                                                                                <label>{{ $role -> name }}</label>
-                                                                            @else
-                                                                                <input type="radio" name="roles[]" value="{{ $role -> id }}">
-                                                                                <label>{{ $role -> name }}</label>
-                                                                            @endif
+                            <tbody>
+                            {{--     Foreach loop for displaying all users in DB            --}}
+                            @foreach($users as $user)
+                                <tr>
+                                    <th scope="row">{{ $user -> id}}</th>
+                                    <td>{{ $user -> name}}</td>
+                                    <td>{{ $user -> email}}</td>
+                                    <td>{{ implode(', ', $user -> roles() -> get() -> pluck('name') -> toArray()) }}</td>
+                                    <td>
+                                        {{--       Edit button on user management        --}}
+                                        @if($logUser != $user && !$user -> hasRole('owner'))
+                                            @can('ownerRights')
+                                                <button data-toggle="modal" data-target="#editModal{{$user -> id}}" class="btn btn-primary float-left shadow-none">
+                                                    Edit
+                                                </button>
+                                            @endcan
+                                        @endif
+                                        <div class="modal fade" id="editModal{{$user -> id}}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4>Edit</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{route('users.update', $user)}}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            @foreach($roles as $role)
+                                                                <div class="form-check">
+                                                                    @if($role -> name != 'owner')
+                                                                        @if($user -> hasRole('User') && $role -> id == 1)
+                                                                            <input type="radio" name="roles[]" value="{{ $role -> id }}" checked>
+                                                                            <label>{{ $role -> name }}</label>
+                                                                        @elseif($user -> hasRole('Admin') && $role -> id == 2)
+                                                                            <input type="radio" name="roles[]" value="{{ $role -> id }}" checked>
+                                                                            <label>{{ $role -> name }}</label>
+                                                                        @else
+                                                                            <input type="radio" name="roles[]" value="{{ $role -> id }}">
+                                                                            <label>{{ $role -> name }}</label>
                                                                         @endif
-                                                                    </div>
-                                                                @endforeach
-                                                                <button type="submit" class="btn btn-primary">
-                                                                    Update
-                                                                </button>
-                                                            </form>
-                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            @endforeach
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Update
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{--       Delete button on user management        --}}
-                                            @if($logUser != $user && !($logUser -> hasRole('Admin') && $user -> hasRole('Admin')) && !($logUser -> hasRole('Admin') && $user -> hasRole('Owner')))
+                                        </div>
+                                        {{--       Delete button on user management        --}}
+                                        @if($logUser != $user && !($logUser -> hasRole('Admin') && $user -> hasRole('Admin')) && !($logUser -> hasRole('Admin') && $user -> hasRole('Owner')))
                                             <button data-toggle="modal" data-target="#myModal{{$user -> id}}" class="btn btn-dark float-left">
                                                 Delete
                                             </button>
-                                            @endif
-                                            <div class="modal fade" id="myModal{{$user -> id}}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4>Delete notice</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                        @endif
+                                        <div class="modal fade" id="myModal{{$user -> id}}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4>Delete notice</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    </div>
+                                                    <div class="modal-body">
                                                         @if(($user -> hasRole('Admin') || $user -> hasRole('Owner')) && $logUser -> hasRole('Admin'))
                                                             <p>You do not have permission to delete this user</p>
                                                         @else
@@ -94,13 +94,13 @@
                                                                 <button type="submit" class="btn btn-dark float-left">Delete</button>
                                                             </form>
                                                         @endif
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

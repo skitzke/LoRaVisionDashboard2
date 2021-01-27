@@ -4,90 +4,92 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9 ">
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-header">{{ __('Profile settings') }}</div>
-                      <div class="card-body row row-cols-2 modal-dialog-scrollable justify-content-center text-center">
+                    <div class="card-body row row-cols-2 modal-dialog-scrollable justify-content-center text-center">
                         <div class="p-2">
-                          <script>function show_form(option_id) {
-                                  let form = document.getElementById(option_id + '-form');
-                                  form.hidden = form.hidden !== true;
-                              }</script>
+                            <script>function show_form(option_id) {
+                                    let form = document.getElementById(option_id + '-form');
+                                    form.hidden = form.hidden !== true;
+                                }</script>
 
-                          <div>
-                              <div id="adding-form" class="form-group card-body p-0">
-                                  <ul class="list-group">
-                                      <li class="list-group-item w-100 p-0 border-0 m-2">
-                                          @if ($message = Session::get('success1'))
+                            <div>
+                                <div id="adding-form" class="form-group card-body p-0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item w-100 p-0 border-0 m-2">
+                                            @if ($message = Session::get('success1'))
 
-                                              <div class="alert alert-success alert-block m-0">
+                                                <div class="alert alert-success alert-block m-0">
 
-                                                  <button type="button" class="close" data-dismiss="alert">×</button>
+                                                    <button type="button" class="close" data-dismiss="alert">×</button>
 
-                                                  <strong>{{ $message }}</strong>
+                                                    <strong>{{ $message }}</strong>
 
-                                              </div>
+                                                </div>
 
-                                          @endif
-                                      </li>
-                                      <li class="list-group-item w-100 p-0 border-0 m-2">
-                                          {{--                        THIS IS THE UpdateName BUTTON--}}
-                                          <button data-toggle="modal" data-target="#updateName" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
-                                              Update Username
-                                          </button>
-                                      </li>
-                                      <li class="list-group-item w-100 p-0 border-0 m-2">
-                                          {{--                        THIS IS THE Update Email BUTTON--}}
-                                          <button data-toggle="modal" data-target="#updateEmail" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
-                                              Update Email
-                                          </button>
-                                      </li>
-                                      <li class="list-group-item w-100 p-0 border-0 m-2">
-                                          {{--                        THIS IS THE Update Password BUTTON--}}
-                                          <button data-toggle="modal" data-target="#updatePassword" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
-                                              Update Password
-                                          </button>
-                                      </li>
-                                      <li class="list-group-item w-100 p-0 border-0 m-2">
-                                          {{--                        THIS IS THE DeleteAccount BUTTON--}}
-                                          <button data-toggle="modal" data-target="#deleteAccount" class="list-group-item list-group-item-action rounded btn btn-outline-secondary text-danger">
-                                              Delete Account
-                                          </button>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                          {{--                        THIS IS THE POP-UP WHEN YOU PRESS Update Name--}}
-                          <div class="modal fade m-auto" id="updateName" aria-hidden="true">
-                              <div class="modal-dialog">
-                                  <div class="modal-content">
-                                      <div class="modal-header">
-                                          <h4>Update Username</h4>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                      </div>
-                                      <div class="modal-body">
+                                            @endif
+                                        </li>
+                                        <li class="list-group-item w-100 p-0 border-0 m-2">
+                                            {{--                        THIS IS THE UpdateName BUTTON--}}
+                                            <button data-toggle="modal" data-target="#updateName" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                Update Username
+                                            </button>
+                                        </li>
+                                        <li class="list-group-item w-100 p-0 border-0 m-2">
+                                            {{--                        THIS IS THE Update Email BUTTON--}}
+                                            <button data-toggle="modal" data-target="#updateEmail" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                Update Email
+                                            </button>
+                                        </li>
+                                        <li class="list-group-item w-100 p-0 border-0 m-2">
+                                            {{--                        THIS IS THE Update Password BUTTON--}}
+                                            <button data-toggle="modal" data-target="#updatePassword" class="list-group-item list-group-item-action rounded btn btn-outline-secondary">
+                                                Update Password
+                                            </button>
+                                        </li>
+                                        @can(!'ownerRights')
+                                            <li class="list-group-item w-100 p-0 border-0 m-2">
+                                                {{--                        THIS IS THE DeleteAccount BUTTON--}}
+                                                <button data-toggle="modal" data-target="#deleteAccount" class="list-group-item list-group-item-action rounded btn btn-outline-secondary text-danger">
+                                                    Delete Account
+                                                </button>
+                                            </li>
+                                        @endcan
+                                    </ul>
+                                </div>
+                            </div>
+                            {{--                        THIS IS THE POP-UP WHEN YOU PRESS Update Name--}}
+                            <div class="modal fade m-auto" id="updateName" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4>Update Username</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
                                             New Username
 
-                                          <form action="{{route('update_name')}}" id="name-update-form" class="form-group card-body pt-0 pb-0 "  method="post">
-                                              @csrf
-                                              <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="{{Auth::user()->name}}" autofocus>
-                                              @error('name')
-                                              <span class="invalid-feedback" role="alert">
+                                            <form action="{{route('update_name')}}" id="name-update-form" class="form-group card-body pt-0 pb-0 "  method="post">
+                                                @csrf
+                                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="{{Auth::user()->name}}" autofocus>
+                                                @error('name')
+                                                <span class="invalid-feedback" role="alert">
                                                        <strong>{{ $message }}</strong>
                                                    </span>
-                                              @enderror
-                                              <button type="submit" class="btn btn-primary mt-3">
-                                                  {{ __('Apply') }}
-                                              </button>
-                                          </form>
+                                                @enderror
+                                                <button type="submit" class="btn btn-primary mt-3">
+                                                    {{ __('Apply') }}
+                                                </button>
+                                            </form>
 
 
-                                      </div>
-                                      <div class="modal-footer">
-                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {{--                        THIS IS THE POP-UP WHEN YOU PRESS Update Email--}}
                             <div class="modal fade m-auto" id="updateEmail" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -130,7 +132,7 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         </div>
                                         <div class="modal-body">
-                                            New Username
+                                            New Password
 
                                             <form action="{{route('update_password')}}" id="password-update-form" class="form-group card-body pt-0 pb-0 "  method="post">
                                                 @csrf
@@ -143,8 +145,8 @@
                                                  </strong>
                                                 </span>
                                                 @enderror
-                                                 Confirm New Password
-                                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                                Confirm New Password
+                                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
 
                                                 <button type="submit" class="btn btn-primary mt-3">
                                                     {{ __('Apply') }}
@@ -153,7 +155,7 @@
 
 
 
-                                </div>
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
@@ -194,14 +196,14 @@
 
 
 
-                          </div>
-                      </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{--                        THIS IS THE AVATAR SECTION                      --}}
             <div class="col-md-3">
                 <div class="card">
-                    <div class="card-header">{{ __('Update Avatar') }}</div>
+                    <div class="card-header">{{ __('You') }}</div>
                     <script>function show_form(option_id) {
                             let form = document.getElementById(option_id + '-form');
                             form.hidden = form.hidden !== true;
@@ -234,23 +236,23 @@
                         </div>
                         <div class="row justify-content-center">
 
-                            <div class="profile-header-container">
+                            <div class="profile-header-container text-center">
                                 <div class="profile-header-img">
                                     <img class="rounded-circle w-50" src="/storage/avatars/{{ $user->avatar }}" />
                                     <!-- badge -->
-                                    <div class="rank-label-container">
+                                    <div class="rank-label-container mt-1">
                                         <span class="label label-default rank-label m-auto">{{$user->name}}</span>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center mt-3">
                             <form action="{{route('update_avatar')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="file" class="form-control-file ml-1" name="avatar" id="avatarFile" aria-describedby="fileHelp">
-                                    <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
+                                    <input type="file" class="form-control-file ml-2" style="width: 90%;" name="avatar" id="avatarFile" aria-describedby="fileHelp">
+                                    <small id="fileHelp" class="form-text text-muted ml-2">Please upload a valid image file.</small>
                                 </div>
                                 <button type="submit" class="btn btn-primary ml-2">Submit</button>
                             </form>

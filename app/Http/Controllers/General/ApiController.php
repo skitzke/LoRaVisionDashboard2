@@ -4,6 +4,7 @@ namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
@@ -74,9 +75,7 @@ class ApiController extends Controller
         }catch (ServerException $ignore){}
 
         return redirect()->route('home');
-
     }
-
 
     public function addSensors(Request $request)
     {
@@ -206,7 +205,7 @@ class ApiController extends Controller
                     'KULv6qYx9YA8hXfh'
                 ],
                 'json' => [
-                    'vehicleType' => $input['vehicleType']
+                    'vehicleType' => trim(strtoupper($input['vehicleType']))
                 ]
             ]);
         }catch (ServerException $ignore){}
@@ -270,21 +269,24 @@ class ApiController extends Controller
         try {
             $getArduino = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
                 'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/arduinos/' . $input['arduinoId'])->json();
-        }catch (ServerException $ignore){}
 
-        $client = new Client();
+            $client = new Client();
 
-        $uri = $getArduino['downLinkUrl'];
+            $uri = $getArduino['downLinkUrl'];
 
-        try {
-            $client->post($uri, [
-                'headers' => ['Content-type' => 'application/json'],
-                'json' => [
-                    'dev_id' => strtolower($getArduino['devId']),
-                    'payload_raw' => $input['reset']
-                ]
-            ]);
-        }catch (ServerException $ignore){}
+            if($uri != "tmp")
+            {
+                $client->post($uri, [
+                    'headers' => ['Content-type' => 'application/json'],
+                    'json' => [
+                        'dev_id' => strtolower($getArduino['devId']),
+                        'payload_raw' => $input['reset']
+                    ]
+                ]);
+            } else {
+                return redirect()->route('home');
+            }
+        }catch (BadResponseException $ignore){}
 
         return redirect()->route('home');
     }
