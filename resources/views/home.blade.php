@@ -137,16 +137,16 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($aAlerts as $alert)
+                                            @for($i = count($aAlerts)-1; $i >= 0; $i--)
                                                 <tr>
-                                                    <td>{{$alert['stationName']}}</td>
-                                                    <td>{{$alert['truckNumber']}}</td>
-                                                    <td>{{$alert['batteryVoltage']}}V</td>
-                                                    <td>{{$alert['batteryTemperature']}}&deg;C</td>
-                                                    <td>{{$alert['interiorTemperature']}}&deg;C</td>
-                                                    <td>{{date("d-m-Y H:i:s", substr($alert['createdAt'], 0, 10))}}</td>
+                                                    <td>{{$aAlerts[$i]['stationName']}}</td>
+                                                    <td>{{$aAlerts[$i]['truckNumber']}}</td>
+                                                    <td>{{$aAlerts[$i]['batteryVoltage']}}V</td>
+                                                    <td>{{$aAlerts[$i]['batteryTemperature']}}&deg;C</td>
+                                                    <td>{{$aAlerts[$i]['interiorTemperature']}}&deg;C</td>
+                                                    <td>{{date("d-m-Y H:i:s", substr($aAlerts[$i]['createdAt'], 0, 10))}}</td>
                                                 </tr>
-                                            @endforeach
+                                            @endfor
                                             </tbody>
                                         </table>
                                     </div>
