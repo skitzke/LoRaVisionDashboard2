@@ -28,22 +28,21 @@ class HomeController extends Controller
 
     public function stations()
     {
-        try {
-            $stations = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/stations')->json();
+        $stations = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/stations')->json();
 
-            $vehicleType = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/vehicleTypes')->json();
+        $vehicleType = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/vehicleTypes')->json();
 
-            $trucks = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/trucks')->json();
+        $trucks = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/trucks')->json();
 
-            $aAlerts = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/readings/getAllAlerts')->json();
+        $aAlerts = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/readings/getAllAlerts')->json();
 
-            $cAlerts = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
-                'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/readings/getAllCurrentAlerts')->json();
-        }catch (ServerException $ignore){}
+        $cAlerts = Http::withBasicAuth('qwCPqW2k9JaYeFXn',
+            'KULv6qYx9YA8hXfh')->get('http://167.86.94.244:8090/readings/getAllCurrentAlerts')->json();
+
 
         return view('home', ['stations' => $stations, 'vehicleTypes' => $vehicleType, 'trucks' => $trucks, 'aAlerts' => $aAlerts, 'cAlerts' => $cAlerts]);
     }
